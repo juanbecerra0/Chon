@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:text="SELECT WHEEL"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:onClick="goToWheelMenu"
+        android:id="@+id/wheelMenuButton"
         app:layout_constraintBottom_toBottomOf="parent"
 
         />
