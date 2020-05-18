@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,6 +16,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         configWheelMenuButton();
+
+        WheelData wd = new WheelData("Wheel test");
+        wd.AddToWheel("Item 2", 20);
+        wd.AddToWheel("Item 3", 20);
+        wd.AddToWheel("Item 4", 20);
+        wd.AddToWheel("Item 5", 20);
+
+        TextView text = (TextView) findViewById(R.id.menu_test);
+        text.setText(wd.toString());
+
     }
 
     private void configWheelMenuButton() {
