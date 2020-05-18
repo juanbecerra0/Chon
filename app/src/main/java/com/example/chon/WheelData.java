@@ -184,17 +184,31 @@ public class WheelData {
      *
      * TODO return error message if item cannot be found
      * TODO return error message if item is dynamic
-     * TODO handle changing dynamic chances based on this static diff
+     * TODO return error message if item chance change is too large
      *
      * @param name
+     * @param chance
      */
-    void SetChance(String name) {
+    void SetChance(String name, int chance) {
         WheelDataItem itemToSet = wheelItems.get(name);
         if (itemToSet == null || itemToSet.isDynamic())
             return;
 
-        // TODO handle difference in transition
+        // Get difference of chance
+        int chanceDiff = chance - itemToSet.getChance();
 
+        if (((dynamicPortion - chanceDiff) / dynamicCount) < 1)
+            return;
+
+        dynamicPortion -= chanceDiff;
+        int staticBaseChance = dynamicPortion / dynamicCount;
+        int staticBasePortion = dynamicPortion % dynamicCount;
+
+        // Update chance of item
+        wheelItems.get(name).setChance(chance);
+
+        // Update dynamic items
+        UpdateDynamicRates(staticBaseChance, staticBasePortion);
     }
 
     private void UpdateDynamicRates(int staticBaseChance, int staticLeftover) {
@@ -253,7 +267,7 @@ public class WheelData {
         }
 
         sb.append("--------------------------------------\n");
-        sb.append("Item Chance: " + totalItemChance + ", Item Count: " + totalItemCount + "\n");
+        sb.append("Item Count: " + totalItemCount + ", Item Chance: " + totalItemChance + "\n");
         sb.append("Dynamic Count: " + dynamicCount + ", Dynamic Portion: " + dynamicPortion + "\n");
         sb.append("--------------------------------------\n\n");
 
