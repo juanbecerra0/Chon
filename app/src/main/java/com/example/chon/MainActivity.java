@@ -18,10 +18,15 @@ public class MainActivity extends AppCompatActivity {
         configWheelMenuButton();
 
         WheelData wd = new WheelData("Wheel test");
-        wd.AddToWheel("Item 2", 20);
-        wd.AddToWheel("Item 3", 20);
-        wd.AddToWheel("Item 4", 20);
-        wd.AddToWheel("Item 5", 20);
+        wd.AddToWheel("Item 3");
+        wd.AddToWheel("Item 4");
+        wd.AddToWheel("Item 5");
+        wd.AddToWheel("Item 6");
+        wd.AddToWheel("Item 7");
+        wd.AddToWheel("Item 8");
+        wd.AddToWheel("Item 9");
+        wd.AddToWheel("Item 10");
+        wd.RemoveFromWheel("Item 4");
 
         TextView text = (TextView) findViewById(R.id.menu_test);
         text.setText(wd.toString());
