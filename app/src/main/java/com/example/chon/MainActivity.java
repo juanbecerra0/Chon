@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
         wd.ToggleStatic("Item 2");
         wd.ToggleStatic("Item 5");
+        wd.ToggleStatic("Item 5");
 
         TextView text = (TextView) findViewById(R.id.menu_test);
         text.setText(wd.toString());

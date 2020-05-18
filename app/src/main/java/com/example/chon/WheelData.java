@@ -27,11 +27,15 @@ public class WheelData {
      * @param wheelName
      */
     WheelData(String wheelName) {
+        // Init variables
         this.wheelName = wheelName;
         wheelItems = new LinkedHashMap<String, WheelDataItem>();
+
+        // By default, add two dynamic items at 50/50
         wheelItems.put("Item 1", new WheelDataItem("Item 1", 50));
         wheelItems.put("Item 2", new WheelDataItem("Item 2", 50));
 
+        // Set variables based on two inits
         totalItemCount = 2;
         totalItemChance = 100;
 
@@ -41,6 +45,8 @@ public class WheelData {
 
     /**
      * Constructor for WheelData, a data structure that keeps track of items and their chances
+     *
+     * TODO test
      *
      * @param wheelName
      * @param wheelItems
@@ -69,6 +75,8 @@ public class WheelData {
     /**
      * Constructor for WheelData, a data structure that keeps track of items and their chances
      *
+     * TODO implement
+     *
      * @param wd
      */
     WheelData(WheelData wd) {
@@ -87,23 +95,16 @@ public class WheelData {
      * @param name
      */
     void AddToWheel(String name) {
+        // Check if item already exists
         if (wheelItems.containsKey(name))
             return;
 
+        // Update dynamic rates
         int staticBaseChance = dynamicPortion / ++dynamicCount;
         int staticLeftover = dynamicPortion % dynamicCount;
+        UpdateDynamicRates(staticBaseChance, staticLeftover);
 
-        for (WheelDataItem i : wheelItems.values()) {
-            if (i.isDynamic()) {
-                if (staticLeftover > 0) {
-                    i.setChance(staticBaseChance + 1);
-                    staticLeftover--;
-                } else {
-                    i.setChance(staticBaseChance);
-                }
-            }
-        }
-
+        // Add new item
         wheelItems.put(name, new WheelDataItem(name, staticBaseChance));
         totalItemCount++;
     }
@@ -112,73 +113,70 @@ public class WheelData {
      * Removes an item from the wheel
      *
      * TODO return error message if item cannot be found
-     * TODO handle static removals
      *
      * @param name
      */
     void RemoveFromWheel(String name) {
+        // Check if item does not exist
         WheelDataItem itemToRemove = wheelItems.get(name);
         if (itemToRemove == null)
             return;
 
-        if (itemToRemove.isDynamic()) {
-            int staticBaseChance = dynamicPortion / --dynamicCount;
-            int staticLeftover = dynamicPortion % dynamicCount;
+        // Init variables for later
+        int staticBaseChance;
+        int staticLeftover;
 
-            for (WheelDataItem i : wheelItems.values()) {
-                if (i.isDynamic()) {
-                    if (staticLeftover > 0) {
-                        i.setChance(staticBaseChance + 1);
-                        staticLeftover--;
-                    } else {
-                        i.setChance(staticBaseChance);
-                    }
-                }
-            }
+        // Check if item to remove is static or dynamic
+        if (itemToRemove.isDynamic()) {
+            staticBaseChance = dynamicPortion / --dynamicCount;
+        } else {
+            dynamicPortion += itemToRemove.getChance();
+            staticBaseChance = dynamicPortion / dynamicCount;
         }
 
+        // Calc leftover
+        staticLeftover = dynamicPortion % dynamicCount;
+
+        // Remove item, then update dynamic items
         wheelItems.remove(name);
         totalItemCount--;
+        UpdateDynamicRates(staticBaseChance, staticLeftover);
     }
 
     /**
      * Toggles static status of an item
      *
      * TODO return error message if item cannot be found
-     * TODO handle static -> dynamic change
      *
      * @param name
      */
     void ToggleStatic(String name) {
+        // Check if item exists
         WheelDataItem itemToToggle = wheelItems.get(name);
         if (itemToToggle == null)
             return;
 
+        // Toggle static internally
         int staticBaseChance;
         int staticLeftover;
         wheelItems.get(name).toggleStatic();
 
+        // Check what the transition is to init variables
         if (itemToToggle.isDynamic()) {
             // static -> dynamic
-            // TODO handle difference in transition
+            dynamicPortion += itemToToggle.getChance();
             staticBaseChance = dynamicPortion / ++dynamicCount;
         } else {
             // dynamic -> static
+            dynamicPortion -= itemToToggle.getChance();
             staticBaseChance = dynamicPortion / --dynamicCount;
         }
 
+        // Init second variable
         staticLeftover = dynamicPortion % dynamicCount;
 
-        for (WheelDataItem i : wheelItems.values()) {
-            if (i.isDynamic()) {
-                if (staticLeftover > 0) {
-                    i.setChance(staticBaseChance + 1);
-                    staticLeftover--;
-                } else {
-                    i.setChance(staticBaseChance);
-                }
-            }
-        }
+        // Update dynamic items
+        UpdateDynamicRates(staticBaseChance, staticLeftover);
     }
 
     /**
@@ -197,6 +195,22 @@ public class WheelData {
 
         // TODO handle difference in transition
 
+    }
+
+    private void UpdateDynamicRates(int staticBaseChance, int staticLeftover) {
+        int newTotalItemChance = 0;
+        for (WheelDataItem i : wheelItems.values()) {
+            if (i.isDynamic()) {
+                if (staticLeftover > 0) {
+                    i.setChance(staticBaseChance + 1);
+                    staticLeftover--;
+                } else {
+                    i.setChance(staticBaseChance);
+                }
+            }
+            newTotalItemChance += i.getChance();
+        }
+        totalItemChance = newTotalItemChance;
     }
 
     // ---------------------------------------------------------------
@@ -240,6 +254,7 @@ public class WheelData {
 
         sb.append("--------------------------------------\n");
         sb.append("Item Chance: " + totalItemChance + ", Item Count: " + totalItemCount + "\n");
+        sb.append("Dynamic Count: " + dynamicCount + ", Dynamic Portion: " + dynamicPortion + "\n");
         sb.append("--------------------------------------\n\n");
 
         return sb.toString();
