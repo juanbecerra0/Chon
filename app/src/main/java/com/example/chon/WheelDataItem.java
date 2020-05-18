@@ -6,11 +6,17 @@ public class WheelDataItem {
     // Variables and constructor
     // ---------------------------------------------------------------
 
+    // Basic variables for handling name, chance (1 -> 99), and static status
     private String name;
     private int chance;
     private boolean isStatic;
 
-    public WheelDataItem(String name, int chance) {
+    /**
+     * Constructs a WheelDataItem object, which can be found in a WheelData object
+     * @param name
+     * @param chance
+     */
+    WheelDataItem(String name, int chance) {
         this.name = name;
         this.chance = chance;
         this.isStatic = false;
@@ -25,25 +31,70 @@ public class WheelDataItem {
     // Setters and getters
     // ---------------------------------------------------------------
 
-    public void setName(String name) {
+    /**
+     * Sets name of this item
+     *
+     * @param name
+     */
+    void setName(String name) {
         this.name = name;
     }
 
-    public String getName() {
+    /**
+     * Gets name of this item
+     *
+     * @return
+     */
+    String getName() {
         return name;
     }
 
-    public void setChance(int chance) {
+    /**
+     * Sets chance of receiving this item
+     *
+     * Chance should be between 1 and 99 inclusive
+     *
+     * TODO handle chance that is outside of allowed bounds (?)
+     *      TODO this may be handled by WheelData class
+     *
+     * @param chance
+     */
+    void setChance(int chance) {
+        if (chance < 1 || chance > 99)
+            return;
+
         this.chance = chance;
     }
 
-    public int getChance() {
+    /**
+     * Gets chance of receiving this item
+     *
+     * @return
+     */
+    int getChance() {
         return chance;
     }
 
-    public void toggleStatic() { isStatic = !isStatic; }
+    /**
+     * Toggles between static and dynamic item type
+     *
+     * Requires no parameters, as it simply swaps a boolean
+     */
+    void toggleStatic() { isStatic = !isStatic; }
 
-    public boolean isStatic() { return isStatic; }
+    /**
+     * Returns whether or not item is static
+     *
+     * @return
+     */
+    boolean isStatic() { return isStatic; }
+
+    /**
+     * Returns whether or not item is dynamic
+     *
+     * @return
+     */
+    boolean isDynamic() { return !isStatic; }
 
     // ---------------------------------------------------------------
     // Overloads

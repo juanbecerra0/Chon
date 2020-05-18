@@ -26,7 +26,13 @@ public class MainActivity extends AppCompatActivity {
         wd.AddToWheel("Item 8");
         wd.AddToWheel("Item 9");
         wd.AddToWheel("Item 10");
+
         wd.RemoveFromWheel("Item 4");
+        wd.RemoveFromWheel("Item 6");
+        wd.RemoveFromWheel("Item 8");
+
+        wd.ToggleStatic("Item 2");
+        wd.ToggleStatic("Item 5");
 
         TextView text = (TextView) findViewById(R.id.menu_test);
         text.setText(wd.toString());
