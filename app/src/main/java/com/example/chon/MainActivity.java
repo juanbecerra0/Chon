@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
         configWheelMenuButton();
 
-        WheelData wd = new WheelData("Wheel test");
+        WheelData wd = new WheelData("Wheel test", false);
         wd.AddToWheel("Item 3");
         wd.AddToWheel("Item 4");
         wd.AddToWheel("Item 5");
@@ -33,8 +33,10 @@ public class MainActivity extends AppCompatActivity {
         wd.SetChance("Item 2", 40);
         wd.SetChance("Item 3", 40);
 
+        WheelData wd2 = new WheelData(wd.getJsonString(), true);
+
         TextView text = (TextView) findViewById(R.id.menu_test);
-        text.setText(wd.toString());
+        text.setText(wd2.toString() + "\n\n" + wd2.getJsonString());
 
     }
 

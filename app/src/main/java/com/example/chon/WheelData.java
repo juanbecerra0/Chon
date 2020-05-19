@@ -1,5 +1,7 @@
 package com.example.chon;
 
+import com.google.gson.Gson;
+
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
@@ -11,7 +13,7 @@ public class WheelData {
 
     // Name of wheel, and hashmap to access elements of wheel
     private String wheelName;
-    private HashMap<String, WheelDataItem> wheelItems;
+    private LinkedHashMap<String, WheelDataItem> wheelItems;
 
     // Keeps track of all items
     private int totalItemCount;
@@ -24,63 +26,39 @@ public class WheelData {
     /**
      * Constructor for WheelData, a data structure that keeps track of items and their chances
      *
-     * @param wheelName
-     */
-    WheelData(String wheelName) {
-        // Init variables
-        this.wheelName = wheelName;
-        wheelItems = new LinkedHashMap<String, WheelDataItem>();
-
-        // By default, add two dynamic items at 50/50
-        wheelItems.put("Item 1", new WheelDataItem("Item 1", 50));
-        wheelItems.put("Item 2", new WheelDataItem("Item 2", 50));
-
-        // Set variables based on two inits
-        totalItemCount = 2;
-        totalItemChance = 100;
-
-        dynamicCount = 2;
-        dynamicPortion = 100;
-    }
-
-    /**
-     * Constructor for WheelData, a data structure that keeps track of items and their chances
-     *
-     * TODO test
+     * The fromJson tag is set to true if wheelName is the JSON string representation of
+     * this object
      *
      * @param wheelName
-     * @param wheelItems
+     * @param fromJson
      */
-    WheelData(String wheelName, LinkedHashMap<String, WheelDataItem> wheelItems) {
-        this.wheelName = wheelName;
-        this.wheelItems = wheelItems;
+    WheelData(String wheelName, boolean fromJson) {
+        if (fromJson) {
+            Gson gson = new Gson();
+            WheelData wd = gson.fromJson(wheelName, this.getClass());
 
-        totalItemCount = 0;
-        totalItemChance = 0;
+            this.wheelName = wd.getWheelName();
+            this.wheelItems = wd.getHashMap();
+            this.totalItemCount = wd.getTotalItemCount();
+            this.totalItemChance = wd.getTotalItemChance();
+            this.dynamicCount = wd.getDynamicCount();
+            this.dynamicPortion = wd.getDynamicPortion();
+        } else {
+            // Init variables
+            this.wheelName = wheelName;
+            wheelItems = new LinkedHashMap<String, WheelDataItem>();
 
-        dynamicCount = 0;
-        dynamicPortion = 0;
+            // By default, add two dynamic items at 50/50
+            wheelItems.put("Item 1", new WheelDataItem("Item 1", 50));
+            wheelItems.put("Item 2", new WheelDataItem("Item 2", 50));
 
-        for (WheelDataItem i : wheelItems.values()) {
-            totalItemCount++;
-            totalItemChance++;
-            if (i.isDynamic()) {
-                dynamicCount++;
-                dynamicPortion += i.getChance();
-            }
+            // Set variables based on two inits
+            totalItemCount = 2;
+            totalItemChance = 100;
+
+            dynamicCount = 2;
+            dynamicPortion = 100;
         }
-
-    }
-
-    /**
-     * Constructor for WheelData, a data structure that keeps track of items and their chances
-     *
-     * TODO implement
-     *
-     * @param wd
-     */
-    WheelData(WheelData wd) {
-        // TODO
     }
 
     // ---------------------------------------------------------------
@@ -247,6 +225,61 @@ public class WheelData {
      */
     public String getWheelName() {
         return wheelName;
+    }
+
+    /**
+     * Returns the hashmap representing a list of wheel items
+     *
+     * @return
+     */
+    public LinkedHashMap<String, WheelDataItem> getHashMap() {
+        return wheelItems;
+    }
+
+    /**
+     * Returns total item count
+     *
+     * @return
+     */
+    public int getTotalItemCount() {
+        return totalItemCount;
+    }
+
+    /**
+     * Returns total item chance
+     *
+     * @return
+     */
+    public int getTotalItemChance() {
+        return totalItemChance;
+    }
+
+    /**
+     * Returns total dynamic count
+     *
+     * @return
+     */
+    public int getDynamicCount() {
+        return dynamicCount;
+    }
+
+    /**
+     * Returns total dynamic chance
+     *
+     * @return
+     */
+    public int getDynamicPortion() {
+        return dynamicPortion;
+    }
+
+    /**
+     * Gets the Json string representation
+     *
+     * @return
+     */
+    public String getJsonString() {
+        Gson gson = new Gson();
+        return gson.toJson(this);
     }
 
     // ---------------------------------------------------------------
