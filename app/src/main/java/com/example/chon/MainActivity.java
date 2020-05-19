@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
 
         TextView text = (TextView) findViewById(R.id.menu_test);
         text.setText(wd2.toString() + "\n\n" + wd2.getJsonString());
-
     }
 
     private void configButtons() {
