@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        configWheelMenuButton();
+        configButtons();
 
         WheelData wd = new WheelData("Wheel test", false);
         wd.AddToWheel("Item 3");
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void configWheelMenuButton() {
+    private void configButtons() {
         Button wheelMenuButton = (Button) findViewById(R.id.wheelMenuButton);
         wheelMenuButton.setOnClickListener(new View.OnClickListener() {
             @Override

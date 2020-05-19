@@ -223,7 +223,7 @@ public class WheelData {
      *
      * @return
      */
-    public String getWheelName() {
+    String getWheelName() {
         return wheelName;
     }
 
@@ -232,7 +232,7 @@ public class WheelData {
      *
      * @return
      */
-    public LinkedHashMap<String, WheelDataItem> getHashMap() {
+    LinkedHashMap<String, WheelDataItem> getHashMap() {
         return wheelItems;
     }
 
@@ -241,7 +241,7 @@ public class WheelData {
      *
      * @return
      */
-    public int getTotalItemCount() {
+    private int getTotalItemCount() {
         return totalItemCount;
     }
 
@@ -250,7 +250,7 @@ public class WheelData {
      *
      * @return
      */
-    public int getTotalItemChance() {
+    private int getTotalItemChance() {
         return totalItemChance;
     }
 
@@ -259,7 +259,7 @@ public class WheelData {
      *
      * @return
      */
-    public int getDynamicCount() {
+    private int getDynamicCount() {
         return dynamicCount;
     }
 
@@ -268,7 +268,7 @@ public class WheelData {
      *
      * @return
      */
-    public int getDynamicPortion() {
+    private int getDynamicPortion() {
         return dynamicPortion;
     }
 
@@ -277,7 +277,7 @@ public class WheelData {
      *
      * @return
      */
-    public String getJsonString() {
+    String getJsonString() {
         Gson gson = new Gson();
         return gson.toJson(this);
     }

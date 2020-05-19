@@ -7,30 +7,30 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class WheelMenu extends AppCompatActivity {
+public class WheelEditor extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_wheel_menu);
+        setContentView(R.layout.activity_wheel_editor);
 
         configButtons();
     }
 
     private void configButtons() {
-        Button mainMenuButton = (Button) findViewById(R.id.mainMenuButton);
-        mainMenuButton.setOnClickListener(new View.OnClickListener() {
+        Button wheelMenuButton = (Button) findViewById(R.id.wheelMenuButton);
+        wheelMenuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(WheelMenu.this, MainActivity.class));
+                startActivity(new Intent(WheelEditor.this, WheelMenu.class));
             }
         });
 
-        Button newWheelButton = (Button) findViewById(R.id.newWheelButton);
-        newWheelButton.setOnClickListener(new View.OnClickListener() {
+        Button saveWheelButton = (Button) findViewById(R.id.saveWheelButton);
+        saveWheelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(WheelMenu.this, WheelEditor.class));
+                // TODO
             }
         });
     }
