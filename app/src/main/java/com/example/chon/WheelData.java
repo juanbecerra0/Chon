@@ -272,6 +272,10 @@ public class WheelData {
         return dynamicPortion;
     }
 
+    // ---------------------------------------------------------------
+    // UI getters
+    // ---------------------------------------------------------------
+
     /**
      * Gets the Json string representation
      *
@@ -280,6 +284,10 @@ public class WheelData {
     String getJsonString() {
         Gson gson = new Gson();
         return gson.toJson(this);
+    }
+
+    String getTotalChancePercent() {
+        return this.getTotalItemChance() + "%";
     }
 
     // ---------------------------------------------------------------
