@@ -3,6 +3,7 @@ package com.example.chon;
 import android.content.Context;
 import android.graphics.Color;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -169,15 +170,20 @@ public class WheelDataItem {
      * Represents the listable lines that represent wheel items.
      */
     private class WheelDataUIElement extends LinearLayout {
+        // Layout elements
         private LinearLayout layout;
         private EditText itemName;
         private EditText itemChance;
         private CheckBox isStaticBox;
         private Button removeButton;
 
-
+        // Warning messages for name
         private TextView warningTextName;
         private boolean nameChangedByProgram;
+
+        // Warning messages for chance
+        private TextView warningTextChance;
+        private boolean chanceChangedByProgram;
 
         /**
          * Constructs the UI element object
@@ -200,8 +206,9 @@ public class WheelDataItem {
             inflater.inflate(R.layout.wheel_item_editor, this);
             layout = (LinearLayout) findViewById(R.id.wheelItemEditorLayout);
 
-            // Warning text
-            warningTextName = (TextView) findViewById(R.id.warningTextView);
+            // Warning texts
+            warningTextName = (TextView) findViewById(R.id.warningTextName);
+            warningTextChance = (TextView) findViewById(R.id.warningTextChance);
 
             // Item name box
             nameChangedByProgram = true;
@@ -219,6 +226,7 @@ public class WheelDataItem {
                     // Check if name was automatically changed by the program rather than the user
                     if (nameChangedByProgram) {
                         nameChangedByProgram = false;
+                        warningTextName.setText("");
                         return;
                     }
 
@@ -236,13 +244,22 @@ public class WheelDataItem {
                     }
                 }
             });
+            itemName.setOnFocusChangeListener(new OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if (!hasFocus) {
+                        internalUIUpdate();
+                    }
+                }
+            });
+
 
             // Item chance box
             itemChance = (EditText) findViewById(R.id.itemChance);
             itemChance.setText(String.valueOf(chance));
-            //itemChance.setInputType(InputType.TYPE_NULL); TODO
+            itemChance.setInputType(InputType.TYPE_NULL);
             itemChance.setTextColor(Color.LTGRAY);
-            // TODO
+            // TODO verify number
             itemChance.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -269,11 +286,11 @@ public class WheelDataItem {
                     parentWheel.ToggleStatic(name, isChecked);
                     if (isChecked) {
                         // static
-                        //itemChance.setInputType(InputType.TYPE_NUMBER_VARIATION_NORMAL); TODO
+                        itemChance.setInputType(InputType.TYPE_NUMBER_VARIATION_NORMAL);
                         itemChance.setTextColor(Color.BLACK);
                     } else {
                         // dynamic
-                        //itemChance.setInputType(InputType.TYPE_NULL); TODO
+                        itemChance.setInputType(InputType.TYPE_NULL);
                         itemChance.setTextColor(Color.LTGRAY);
                     }
                 }
@@ -293,11 +310,17 @@ public class WheelDataItem {
          * Internally updates UI name and chance
          */
         public void internalUIUpdate() {
+            // Change name is needed
             nameChangedByProgram = true;
             itemName.setText(name);
 
-
-            itemChance.setText(String.valueOf(chance));
+            // Change chance if needed
+            if (!isStatic) {
+                chanceChangedByProgram = true;
+                itemChance.setInputType(InputType.TYPE_NUMBER_VARIATION_NORMAL);
+                itemChance.setText(String.valueOf(chance));
+                itemChance.setInputType(InputType.TYPE_NULL);
+            }
         }
 
         /**
