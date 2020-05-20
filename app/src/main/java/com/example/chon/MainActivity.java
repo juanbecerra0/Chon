@@ -19,19 +19,6 @@ public class MainActivity extends AppCompatActivity {
 
         WheelData wd = new WheelData("Wheel test", false);
         wd.AddToWheel("Item 3");
-        wd.AddToWheel("Item 4");
-        wd.AddToWheel("Item 5");
-        wd.AddToWheel("Item 6");
-        wd.AddToWheel("Item 7");
-        wd.AddToWheel("Item 8");
-        wd.AddToWheel("Item 9");
-        wd.AddToWheel("Item 10");
-
-        wd.ToggleStatic("Item 2");
-        wd.ToggleStatic("Item 3");
-
-        wd.SetChance("Item 2", 40);
-        wd.SetChance("Item 3", 40);
 
         WheelData wd2 = new WheelData(wd.getJsonString(), true);
 

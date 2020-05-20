@@ -1,17 +1,13 @@
 package com.example.chon;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.provider.SelfDestructiveThread;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -41,7 +37,15 @@ public class WheelEditor extends AppCompatActivity {
 
         configButtons();
         configText();
+
+        for (WheelDataItem i : thisWheel.getHashMap().values()) {
+            LoadUIElement(i);
+        }
+        UpdateWheelUI();
     }
+
+    // TODO temp
+    int numItems = 2;
 
     private void configButtons() {
         // Discard changes button
@@ -67,7 +71,8 @@ public class WheelEditor extends AppCompatActivity {
         newItemButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AddNewWheelItem();
+                WheelDataItem item = thisWheel.AddToWheel("Item " + String.valueOf(++numItems));
+                LoadUIElement(item);
             }
         });
     }
@@ -101,66 +106,26 @@ public class WheelEditor extends AppCompatActivity {
         wheelItemsUI = (LinearLayout) findViewById(R.id.wheelItemsUI);
     }
 
-    private void AddNewWheelItem() {
-        wheelItemsUI.addView(new WheelDataUIElement(getBaseContext()));
+    private void LoadUIElement(WheelDataItem i) {
+        i.initUiElement(getBaseContext());
+        wheelItemsUI.addView(i.getUiElement());
+        i.updateUI();
     }
 
     /**
      * Updates the user interface to display information
      */
-    private void Update() {
-        boolean canSave = true;
-
+    private void UpdateWheelUI() {
         // Update current total chance
         totalChance.setText(thisWheel.getTotalChancePercent());
 
+        // Update info on all elements
+        for (WheelDataItem i : thisWheel.getHashMap().values()) {
+            i.updateUI();
+        }
+
         // Check if wheel is savable
-        saveWheelButton.setEnabled(canSave);
-    }
-
-    /**
-     * Represents the listable lines that represent wheel items.
-     */
-    private class WheelDataUIElement extends LinearLayout {
-        private LinearLayout layout;
-        private EditText itemName;
-        private EditText itemChance;
-        private CheckBox isStaticBox;
-        private Button removeButton;
-
-        public WheelDataUIElement(Context context) {
-            super(context);
-            initControl(context);
-        }
-
-        private void initControl(Context context) {
-            // Create a layout blueprint
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            inflater.inflate(R.layout.wheel_item_editor, this);
-            layout = (LinearLayout) findViewById(R.id.wheelItemEditorLayout);
-
-            // Item name box
-            itemName = (EditText) findViewById(R.id.itemName);
-
-            // Item chance box
-            itemChance = (EditText) findViewById(R.id.itemChance);
-
-            // Is static swap
-            isStaticBox = (CheckBox) findViewById(R.id.isStaticBox);
-
-            // Remove button
-            removeButton = (Button) findViewById(R.id.removeButton);
-            removeButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    SelfDestruct();
-                }
-            });
-        }
-
-        private void SelfDestruct() {
-            wheelItemsUI.removeView((View) this);
-        }
+        saveWheelButton.setEnabled(thisWheel.getTotalItemChance() == 100);
     }
 
 }

@@ -72,19 +72,21 @@ public class WheelData {
      *
      * @param name
      */
-    void AddToWheel(String name) {
+    WheelDataItem AddToWheel(String name) {
         // Check if item already exists
         if (wheelItems.containsKey(name))
-            return;
-
-        // Update dynamic rates
-        int staticBaseChance = dynamicPortion / ++dynamicCount;
-        int staticLeftover = dynamicPortion % dynamicCount;
-        UpdateDynamicRates(staticBaseChance, staticLeftover);
+            return null;
 
         // Add new item
-        wheelItems.put(name, new WheelDataItem(name, staticBaseChance));
+        // Update static and dynamic rates
+        int staticBaseChance = dynamicPortion / ++dynamicCount;
+        int staticLeftover = dynamicPortion % dynamicCount;
         totalItemCount++;
+
+        wheelItems.put(name, new WheelDataItem(name, staticBaseChance));
+        UpdateDynamicRates(staticBaseChance, staticLeftover);
+
+        return wheelItems.get(name);
     }
 
     /**
@@ -128,7 +130,7 @@ public class WheelData {
      *
      * @param name
      */
-    void ToggleStatic(String name) {
+    void ToggleStatic(String name, boolean isStatic) {
         // Check if item exists
         WheelDataItem itemToToggle = wheelItems.get(name);
         if (itemToToggle == null)
@@ -137,7 +139,7 @@ public class WheelData {
         // Toggle static internally
         int staticBaseChance;
         int staticLeftover;
-        wheelItems.get(name).toggleStatic();
+        wheelItems.get(name).setStatic(isStatic);
 
         // Check what the transition is to init variables
         if (itemToToggle.isDynamic()) {
@@ -227,6 +229,10 @@ public class WheelData {
         return wheelName;
     }
 
+    WheelDataItem getWheelDataItem(String name) {
+        return wheelItems.get(name);
+    }
+
     /**
      * Returns the hashmap representing a list of wheel items
      *
@@ -250,7 +256,7 @@ public class WheelData {
      *
      * @return
      */
-    private int getTotalItemChance() {
+    int getTotalItemChance() {
         return totalItemChance;
     }
 
