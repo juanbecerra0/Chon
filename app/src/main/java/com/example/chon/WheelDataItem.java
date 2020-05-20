@@ -29,8 +29,8 @@ public class WheelDataItem {
 
     /**
      * Constructs a WheelDataItem object, which can be found in a WheelData object
-     * @param name
-     * @param chance
+     * @param name of item
+     * @param chance chance of receiving item
      */
     WheelDataItem(String name, int chance) {
         this.name = name;
@@ -50,7 +50,7 @@ public class WheelDataItem {
     /**
      * Sets name of this item
      *
-     * @param name
+     * @param name of item
      */
     void setName(String name) {
         this.name = name;
@@ -59,7 +59,7 @@ public class WheelDataItem {
     /**
      * Gets name of this item
      *
-     * @return
+     * @return name of item
      */
     String getName() {
         return name;
@@ -70,10 +70,7 @@ public class WheelDataItem {
      *
      * Chance should be between 1 and 99 inclusive
      *
-     * TODO handle chance that is outside of allowed bounds (?)
-     *      TODO this may be handled by WheelData class
-     *
-     * @param chance
+     * @param chance of receiving item
      */
     void setChance(int chance) {
         if (chance < 1 || chance > 99)
@@ -85,12 +82,17 @@ public class WheelDataItem {
     /**
      * Gets chance of receiving this item
      *
-     * @return
+     * @return chance of receiving item
      */
     int getChance() {
         return chance;
     }
 
+    /**
+     * Sets static status of item
+     *
+     * @param isStatic status
+     */
     void setStatic(boolean isStatic) {
         this.isStatic = isStatic;
     }
@@ -98,14 +100,14 @@ public class WheelDataItem {
     /**
      * Returns whether or not item is static
      *
-     * @return
+     * @return isStatis status
      */
     boolean isStatic() { return isStatic; }
 
     /**
      * Returns whether or not item is dynamic
      *
-     * @return
+     * @return isDynamic
      */
     boolean isDynamic() { return !isStatic; }
 
@@ -131,15 +133,25 @@ public class WheelDataItem {
     // GUI element
     // ---------------------------------------------------------------
 
+    /**
+     * Initializes UI object for this item
+     * @param context
+     */
     public void initUiElement(Context context) {
         uiElement = new WheelDataUIElement(context);
-        System.out.println(uiElement);
     }
 
+    /**
+     * Returns the UI object of this item
+     * @return
+     */
     public WheelDataUIElement getUiElement() {
         return uiElement;
     }
 
+    /**
+     * Updates the internal UI strings of this item for the WHeelEditor GUI
+     */
     public void updateUI() {
         uiElement.internalUIUpdate();
     }
@@ -154,11 +166,21 @@ public class WheelDataItem {
         private CheckBox isStaticBox;
         private Button removeButton;
 
+        /**
+         * Constructs the UI element object
+         *
+         * @param context
+         */
         public WheelDataUIElement(Context context) {
             super(context);
             initControl(context);
         }
 
+        /**
+         * Initializes subviews of the UI element
+         *
+         * @param context
+         */
         private void initControl(Context context) {
             // Create a layout blueprint
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -216,6 +238,7 @@ public class WheelDataItem {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     // TODO parentWheel.ToggleStatic(name, isChecked);
+                    isStatic = isChecked;
                     if (isChecked) {
                         // static
                         itemChance.setInputType(InputType.TYPE_NUMBER_VARIATION_NORMAL);
@@ -238,11 +261,17 @@ public class WheelDataItem {
             });
         }
 
+        /**
+         * Internally updates UI name and chance
+         */
         public void internalUIUpdate() {
             itemName.setText(name);
             itemChance.setText(String.valueOf(chance));
         }
 
+        /**
+         * Removes this UI object from the parent component
+         */
         private void SelfDestruct() {
             // TODO
         }
