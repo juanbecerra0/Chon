@@ -20,10 +20,10 @@ public class MainActivity extends AppCompatActivity {
         WheelData wd = new WheelData("Wheel test", false);
         wd.AddToWheel("Item 3");
 
-        WheelData wd2 = new WheelData(wd.getJsonString(), true);
+        //WheelData wd2 = new WheelData(wd.getJsonString(), true);
 
-        TextView text = (TextView) findViewById(R.id.menu_test);
-        text.setText(wd2.toString() + "\n\n" + wd2.getJsonString());
+        //TextView text = (TextView) findViewById(R.id.menu_test);
+        //text.setText(wd2.toString() + "\n\n" + wd2.getJsonString());
     }
 
     private void configButtons() {

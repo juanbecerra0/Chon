@@ -13,6 +13,8 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.google.gson.annotations.Expose;
+
 public class WheelDataItem {
 
     // ---------------------------------------------------------------
@@ -25,17 +27,22 @@ public class WheelDataItem {
     private boolean isStatic;
 
     // UI elements and corresponding parent object
+    @Expose(serialize = false, deserialize = false)
     private WheelDataUIElement uiElement;
+    @Expose(serialize = false, deserialize = false)
+    private WheelData parentWheel;
 
     /**
      * Constructs a WheelDataItem object, which can be found in a WheelData object
      * @param name of item
      * @param chance chance of receiving item
+     * @param parentWheel WheelData object that this item is contained in
      */
-    WheelDataItem(String name, int chance) {
+    WheelDataItem(String name, int chance, WheelData parentWheel) {
         this.name = name;
         this.chance = chance;
         this.isStatic = false;
+        this.parentWheel = parentWheel;
     }
 
     // ---------------------------------------------------------------
@@ -211,7 +218,7 @@ public class WheelDataItem {
             // Item chance box
             itemChance = (EditText) findViewById(R.id.itemChance);
             itemChance.setText(String.valueOf(chance));
-            itemChance.setInputType(InputType.TYPE_NULL);
+            //itemChance.setInputType(InputType.TYPE_NULL); TODO
             itemChance.setTextColor(Color.LTGRAY);
             // TODO
             itemChance.addTextChangedListener(new TextWatcher() {
@@ -237,15 +244,14 @@ public class WheelDataItem {
             isStaticBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    // TODO parentWheel.ToggleStatic(name, isChecked);
-                    isStatic = isChecked;
+                    parentWheel.ToggleStatic(name, isChecked);
                     if (isChecked) {
                         // static
-                        itemChance.setInputType(InputType.TYPE_NUMBER_VARIATION_NORMAL);
+                        //itemChance.setInputType(InputType.TYPE_NUMBER_VARIATION_NORMAL); TODO
                         itemChance.setTextColor(Color.BLACK);
                     } else {
                         // dynamic
-                        itemChance.setInputType(InputType.TYPE_NULL);
+                        //itemChance.setInputType(InputType.TYPE_NULL); TODO
                         itemChance.setTextColor(Color.LTGRAY);
                     }
                 }
@@ -274,10 +280,17 @@ public class WheelDataItem {
          * the Wheel object
          */
         private void SelfDestruct() {
+            // Remove from layout
             LinearLayout parentLayout = (LinearLayout) layout.getParent();
             parentLayout.removeView((View) layout);
 
-            // TODO remove from wheel object
+            // Remove from wheel
+            parentWheel.RemoveFromWheel(name);
+
+            // Update UI of each other element
+            for (WheelDataItem i : parentWheel.getHashMap().values()) {
+                i.updateUI();
+            }
         }
     }
 

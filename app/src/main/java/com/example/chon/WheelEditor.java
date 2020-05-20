@@ -71,8 +71,11 @@ public class WheelEditor extends AppCompatActivity {
         newItemButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Add item to wheel, then load UI element
                 WheelDataItem item = thisWheel.AddToWheel("Item " + String.valueOf(++numItems));
                 LoadUIElement(item);
+                // Update all UI elements
+                UpdateWheelUI();
             }
         });
     }

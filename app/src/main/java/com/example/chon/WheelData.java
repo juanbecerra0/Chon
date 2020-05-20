@@ -49,8 +49,8 @@ public class WheelData {
             wheelItems = new LinkedHashMap<String, WheelDataItem>();
 
             // By default, add two dynamic items at 50/50
-            wheelItems.put("Item 1", new WheelDataItem("Item 1", 50));
-            wheelItems.put("Item 2", new WheelDataItem("Item 2", 50));
+            wheelItems.put("Item 1", new WheelDataItem("Item 1", 50, this));
+            wheelItems.put("Item 2", new WheelDataItem("Item 2", 50, this));
 
             // Set variables based on two inits
             totalItemCount = 2;
@@ -83,7 +83,7 @@ public class WheelData {
         int staticLeftover = dynamicPortion % dynamicCount;
         totalItemCount++;
 
-        wheelItems.put(name, new WheelDataItem(name, staticBaseChance));
+        wheelItems.put(name, new WheelDataItem(name, staticBaseChance, this));
         UpdateDynamicRates(staticBaseChance, staticLeftover);
 
         return wheelItems.get(name);
@@ -191,7 +191,7 @@ public class WheelData {
         UpdateDynamicRates(staticBaseChance, staticBasePortion);
     }
 
-    private void UpdateDynamicRates(int staticBaseChance, int staticLeftover) {
+    public void UpdateDynamicRates(int staticBaseChance, int staticLeftover) {
         int newTotalItemChance = 0;
         for (WheelDataItem i : wheelItems.values()) {
             if (i.isDynamic()) {
