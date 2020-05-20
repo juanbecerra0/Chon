@@ -19,6 +19,18 @@ public class WheelSaveDataManager extends AppCompatActivity {
     private final static String WHEEL_LIST = "wheelListPref";
     private final static String WHEEL_LIST_KEY = "Wheel_List_Pref";
 
+    // Context
+    private Context ctx;
+
+    /**
+     * Constructor for save data manager, requires current context
+     *
+     * @param ctx
+     */
+    public WheelSaveDataManager(Context ctx) {
+        this.ctx = ctx;
+    }
+
     /**
      * Load the last selected WheelData object. Intended for MainActivity (load selected info).
      *
@@ -26,7 +38,6 @@ public class WheelSaveDataManager extends AppCompatActivity {
      */
     public WheelData LoadCurrentWheel () {
         // Create shared preferences
-        Context ctx = getApplicationContext();
         SharedPreferences sharedPreferences = ctx.getSharedPreferences(WHEEL_CURRENT, MODE_PRIVATE);
 
         // Get saved string
@@ -51,7 +62,6 @@ public class WheelSaveDataManager extends AppCompatActivity {
         String currentWheelJSON = gson.toJson(wd);
 
         // Create shared preferences
-        Context ctx = getApplicationContext();
         SharedPreferences sharedPreferences = ctx.getSharedPreferences(WHEEL_CURRENT, MODE_PRIVATE);
 
         // Put json string into shared preferences
@@ -67,7 +77,6 @@ public class WheelSaveDataManager extends AppCompatActivity {
      */
     public LinkedHashMap<String, WheelData> LoadWheelList() {
         // Create shared preferences
-        Context ctx = getApplicationContext();
         SharedPreferences sharedPreferences = ctx.getSharedPreferences(WHEEL_LIST, MODE_PRIVATE);
 
         // Get saved string
@@ -76,6 +85,10 @@ public class WheelSaveDataManager extends AppCompatActivity {
         // Create GSON object, and turn back into WheelData object
         Gson gson = new Gson();
         LinkedHashMap<String, WheelData> wdList = gson.fromJson(wheelListJSON, LinkedHashMap.class);
+
+        if (wdList == null) {
+            wdList = new LinkedHashMap<String, WheelData>();
+        }
 
         // For each of the wdList elements, load in vital child object info and UI elements
         for (WheelData wd : wdList.values()) {
@@ -90,20 +103,30 @@ public class WheelSaveDataManager extends AppCompatActivity {
      *
      * @param wdList
      */
-    public void SaveWheelList(LinkedHashSet<WheelData> wdList) {
+    public void SaveWheelList(LinkedHashMap<String, WheelData> wdList) {
         Gson gson = new Gson();
 
         // Get Gson string
         String currentWheelJSON = gson.toJson(wdList);
 
         // Create shared preferences
-        Context ctx = getApplicationContext();
         SharedPreferences sharedPreferences = ctx.getSharedPreferences(WHEEL_LIST, MODE_PRIVATE);
 
         // Put json string into shared preferences
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(WHEEL_LIST_KEY, currentWheelJSON);
         editor.commit();
+    }
+
+    public boolean AddToWheelList(WheelData wd) {
+        LinkedHashMap<String, WheelData> wheelList = LoadWheelList();
+        if (wheelList.containsKey(wd.getWheelName())) {
+            return false;
+        } else {
+            wheelList.put(wd.getWheelName(), wd);
+            SaveWheelList(wheelList);
+            return true;
+        }
     }
 
 }
