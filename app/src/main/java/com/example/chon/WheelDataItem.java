@@ -162,8 +162,8 @@ public class WheelDataItem {
     /**
      * Updates the internal UI strings of this item for the WHeelEditor GUI
      */
-    public void updateUI() {
-        uiElement.internalUIUpdate();
+    public boolean updateUI() {
+        return uiElement.internalUIUpdate();
     }
 
     /**
@@ -352,8 +352,10 @@ public class WheelDataItem {
 
         /**
          * Internally updates UI name and chance
+         *
+         * Returns whether or not this item is savable
          */
-        public void internalUIUpdate() {
+        public boolean internalUIUpdate() {
             // Change name is needed
             nameChangedByProgram = true;
             itemName.setText(name);
@@ -364,6 +366,9 @@ public class WheelDataItem {
             itemChance.setText(String.valueOf(chance));
             if (!isStatic)
                 itemChance.setInputType(InputType.TYPE_NULL);
+
+            // If no warning text, then this is savable
+            return warningText.getText().toString().equals("");
         }
 
         /**

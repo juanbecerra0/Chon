@@ -57,8 +57,8 @@ public class WheelData {
             wheelItems = new LinkedHashMap<String, WheelDataItem>();
 
             // By default, add two dynamic items at 50/50
-            wheelItems.put("Item 1", new WheelDataItem("Item 1", 50, this));
-            wheelItems.put("Item 2", new WheelDataItem("Item 2", 50, this));
+            wheelItems.put("NewItem1", new WheelDataItem("NewItem1", 50, this));
+            wheelItems.put("NewItem2", new WheelDataItem("NewItem2", 50, this));
 
             // Set variables based on two inits
             totalItemCount = 2;

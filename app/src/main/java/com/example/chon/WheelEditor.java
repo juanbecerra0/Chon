@@ -12,6 +12,9 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
+
 public class WheelEditor extends AppCompatActivity {
 
     // This wheel data
@@ -44,9 +47,6 @@ public class WheelEditor extends AppCompatActivity {
         UpdateWheelUI();
     }
 
-    // TODO temp
-    int numItems = 2;
-
     private void configButtons() {
         // Discard changes button
         Button wheelMenuButton = (Button) findViewById(R.id.wheelMenuButton);
@@ -71,8 +71,22 @@ public class WheelEditor extends AppCompatActivity {
         newItemButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Check if there are greater than 100 items
+                if (thisWheel.getHashMap().values().size() >= 100) {
+                    Snackbar warning = Snackbar.make((View)wheelItemsUI, "You cannot have over 100 items", BaseTransientBottomBar.LENGTH_SHORT);
+                    warning.show();
+                    return;
+                }
+
+                // Generate a unique name for this new wheel item
+                String name = "NewItem1";
+                int nameAppend = 1;
+                while(thisWheel.getHashMap().containsKey(name)) {
+                    name = "NewItem" + (++nameAppend);
+                }
+
                 // Add item to wheel, then load UI element
-                WheelDataItem item = thisWheel.AddToWheel("Item " + String.valueOf(++numItems));
+                WheelDataItem item = thisWheel.AddToWheel(name);
                 LoadUIElement(item);
                 // Update all UI elements
                 UpdateWheelUI();
@@ -119,16 +133,20 @@ public class WheelEditor extends AppCompatActivity {
      * Updates the user interface to display information
      */
     private void UpdateWheelUI() {
+        // Update info on all elements
+        boolean allSavable = true;
+        for (WheelDataItem i : thisWheel.getHashMap().values()) {
+            if(!i.updateUI()) {
+                allSavable = false;
+            }
+        }
+
         // Update current total chance
         totalChance.setText(thisWheel.getTotalChancePercent());
 
-        // Update info on all elements
-        for (WheelDataItem i : thisWheel.getHashMap().values()) {
-            i.updateUI();
-        }
-
         // Check if wheel is savable
-        saveWheelButton.setEnabled(thisWheel.getTotalItemChance() == 100);
+        // TODO check if name is taken
+        saveWheelButton.setEnabled(thisWheel.getTotalItemChance() == 100 && allSavable);
     }
 
 }
