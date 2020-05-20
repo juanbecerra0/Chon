@@ -2,7 +2,6 @@ package com.example.chon;
 
 import com.google.gson.Gson;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 public class WheelData {
@@ -34,6 +33,7 @@ public class WheelData {
      */
     WheelData(String wheelName, boolean fromJson) {
         if (fromJson) {
+            // TODO fix internal wheel item parent wheel/UI loading
             Gson gson = new Gson();
             WheelData wd = gson.fromJson(wheelName, this.getClass());
 
@@ -43,6 +43,11 @@ public class WheelData {
             this.totalItemChance = wd.getTotalItemChance();
             this.dynamicCount = wd.getDynamicCount();
             this.dynamicPortion = wd.getDynamicPortion();
+
+            for (WheelDataItem i : wheelItems.values()) {
+                i.ReloadJSON(this);
+            }
+
         } else {
             // Init variables
             this.wheelName = wheelName;

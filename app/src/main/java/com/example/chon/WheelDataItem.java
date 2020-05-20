@@ -3,7 +3,6 @@ package com.example.chon;
 import android.content.Context;
 import android.graphics.Color;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +11,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-
-import com.google.gson.annotations.Expose;
 
 public class WheelDataItem {
 
@@ -26,11 +23,9 @@ public class WheelDataItem {
     private int chance;
     private boolean isStatic;
 
-    // UI elements and corresponding parent object
-    @Expose(serialize = false, deserialize = false)
-    private WheelDataUIElement uiElement;
-    @Expose(serialize = false, deserialize = false)
-    private WheelData parentWheel;
+    // UI elements and corresponding parent object (excluded from JSON serialization)
+    private transient WheelDataUIElement uiElement;
+    private transient WheelData parentWheel;
 
     /**
      * Constructs a WheelDataItem object, which can be found in a WheelData object
@@ -49,6 +44,9 @@ public class WheelDataItem {
     // Utility
     // ---------------------------------------------------------------
 
+    void ReloadJSON(WheelData parentWheel) {
+        this.parentWheel = parentWheel;
+    }
 
     // ---------------------------------------------------------------
     // Setters and getters
