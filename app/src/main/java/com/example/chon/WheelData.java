@@ -32,41 +32,22 @@ public class WheelData {
      * this object
      *
      * @param wheelName
-     * @param fromJson
      */
-    WheelData(String wheelName, boolean fromJson) {
-        if (fromJson) {
-            // TODO fix internal wheel item parent wheel/UI loading
-            Gson gson = new Gson();
-            WheelData wd = gson.fromJson(wheelName, this.getClass());
+    WheelData(String wheelName) {
+        // Init variables
+        this.wheelName = wheelName;
+        wheelItems = new LinkedHashMap<String, WheelDataItem>();
 
-            this.wheelName = wd.getWheelName();
-            this.wheelItems = wd.getHashMap();
-            this.totalItemCount = wd.getTotalItemCount();
-            this.totalItemChance = wd.getTotalItemChance();
-            this.dynamicCount = wd.getDynamicCount();
-            this.dynamicPortion = wd.getDynamicPortion();
+        // By default, add two dynamic items at 50/50
+        wheelItems.put("NewItem1", new WheelDataItem("NewItem1", 50, this));
+        wheelItems.put("NewItem2", new WheelDataItem("NewItem2", 50, this));
 
-            for (WheelDataItem i : wheelItems.values()) {
-                i.ReloadJSON(this);
-            }
+        // Set variables based on two inits
+        totalItemCount = 2;
+        totalItemChance = 100;
 
-        } else {
-            // Init variables
-            this.wheelName = wheelName;
-            wheelItems = new LinkedHashMap<String, WheelDataItem>();
-
-            // By default, add two dynamic items at 50/50
-            wheelItems.put("NewItem1", new WheelDataItem("NewItem1", 50, this));
-            wheelItems.put("NewItem2", new WheelDataItem("NewItem2", 50, this));
-
-            // Set variables based on two inits
-            totalItemCount = 2;
-            totalItemChance = 100;
-
-            dynamicCount = 2;
-            dynamicPortion = 100;
-        }
+        dynamicCount = 2;
+        dynamicPortion = 100;
     }
 
     // ---------------------------------------------------------------
@@ -75,8 +56,6 @@ public class WheelData {
 
     /**
      * Adds an item to the wheel, which is dynamic by default
-     *
-     * TODO return error message if item is duplicate
      *
      * @param name
      */
@@ -99,8 +78,6 @@ public class WheelData {
 
     /**
      * Removes an item from the wheel
-     *
-     * TODO return error message if item cannot be found
      *
      * @param name
      */
@@ -133,8 +110,6 @@ public class WheelData {
 
     /**
      * Toggles static status of an item
-     *
-     * TODO return error message if item cannot be found
      *
      * @param name
      */

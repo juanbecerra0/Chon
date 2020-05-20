@@ -36,7 +36,8 @@ public class WheelEditor extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wheel_editor);
 
-        thisWheel = new WheelData("New wheel", false);
+        // TODO generate a unique name
+        thisWheel = new WheelData("New wheel");
 
         configButtons();
         configText();
@@ -62,7 +63,8 @@ public class WheelEditor extends AppCompatActivity {
         saveWheelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO
+                // Append this object to the end of the static wheel list
+
             }
         });
 
