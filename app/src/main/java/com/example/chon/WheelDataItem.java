@@ -177,13 +177,11 @@ public class WheelDataItem {
         private CheckBox isStaticBox;
         private Button removeButton;
 
-        // Warning messages for name
-        private TextView warningTextName;
+        // Warning messages for name and chance
+        private TextView warningText;
         private boolean nameChangedByProgram;
-
-        // Warning messages for chance
-        private TextView warningTextChance;
         private boolean chanceChangedByProgram;
+        private boolean canChangeChance = false;
 
         /**
          * Constructs the UI element object
@@ -207,8 +205,7 @@ public class WheelDataItem {
             layout = (LinearLayout) findViewById(R.id.wheelItemEditorLayout);
 
             // Warning texts
-            warningTextName = (TextView) findViewById(R.id.warningTextName);
-            warningTextChance = (TextView) findViewById(R.id.warningTextChance);
+            warningText = (TextView) findViewById(R.id.warningText);
 
             // Item name box
             nameChangedByProgram = true;
@@ -226,21 +223,21 @@ public class WheelDataItem {
                     // Check if name was automatically changed by the program rather than the user
                     if (nameChangedByProgram) {
                         nameChangedByProgram = false;
-                        warningTextName.setText("");
+                        warningText.setText("");
                         return;
                     }
 
                     // Check if name has returned to the old name
                     if (s.toString().equals(name)) {
-                        warningTextName.setText("");
+                        warningText.setText("");
                         return;
                     }
 
                     // Check if this name change would cause an error. If not, set the new name.
                     if (!parentWheel.setNewWheelItemName(name, s.toString())) {
-                        warningTextName.setText("The name \"" + s.toString() + "\" is already being used!");
+                        warningText.setText("The name \"" + s.toString() + "\" is already being used!");
                     } else {
-                        warningTextName.setText("");
+                        warningText.setText("");
                     }
                 }
             });
@@ -255,11 +252,11 @@ public class WheelDataItem {
 
 
             // Item chance box
+            chanceChangedByProgram = true;
             itemChance = (EditText) findViewById(R.id.itemChance);
             itemChance.setText(String.valueOf(chance));
             itemChance.setInputType(InputType.TYPE_NULL);
             itemChance.setTextColor(Color.LTGRAY);
-            // TODO verify number
             itemChance.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -268,12 +265,53 @@ public class WheelDataItem {
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    // Check if chance was automatically changed by the program rather than by user
+                    if (chanceChangedByProgram) {
+                        chanceChangedByProgram = false;
+                        return;
+                    }
 
+                    // Check if value is null
+                    String valueString = s.toString();
+                    if(valueString.equals("")) {
+                        warningText.setText("Chance must be greater than 1!");
+                        return;
+                    }
+
+                    // Check if value is out of range
+                    int valueInt = Integer.parseInt(valueString);
+                    if(valueInt < 1) {
+                        warningText.setText("Chance must be greater than 1!");
+                        return;
+                    }
+
+                    // Check if change is viable
+                    if(!parentWheel.SetChance(name, Integer.parseInt(s.toString()))) {
+                        warningText.setText("Chance must be between 1 and " + parentWheel.getMaxStaticChance() + "!");
+                        return;
+                    } else {
+                        // For each element, update UI (once we click off)
+                        warningText.setText("");
+                        canChangeChance = true;
+                    }
                 }
 
                 @Override
                 public void afterTextChanged(Editable s) {
 
+                }
+            });
+            itemChance.setOnFocusChangeListener(new OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if(!hasFocus) {
+                        internalUIUpdate();
+                    }
+                    if(canChangeChance) {
+                        for (WheelDataItem i : parentWheel.getHashMap().values()) {
+                            i.updateUI();
+                        }
+                    }
                 }
             });
 
@@ -283,15 +321,21 @@ public class WheelDataItem {
             isStaticBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    // Toggle static
                     parentWheel.ToggleStatic(name, isChecked);
-                    if (isChecked) {
+                    // Update whether or not field is editable
+                    if (isStatic) {
                         // static
-                        itemChance.setInputType(InputType.TYPE_NUMBER_VARIATION_NORMAL);
+                        itemChance.setInputType(InputType.TYPE_CLASS_NUMBER);
                         itemChance.setTextColor(Color.BLACK);
                     } else {
                         // dynamic
                         itemChance.setInputType(InputType.TYPE_NULL);
                         itemChance.setTextColor(Color.LTGRAY);
+                    }
+                    // For each element, update UI
+                    for (WheelDataItem i : parentWheel.getHashMap().values()) {
+                        i.updateUI();
                     }
                 }
             });
@@ -315,12 +359,11 @@ public class WheelDataItem {
             itemName.setText(name);
 
             // Change chance if needed
-            if (!isStatic) {
-                chanceChangedByProgram = true;
-                itemChance.setInputType(InputType.TYPE_NUMBER_VARIATION_NORMAL);
-                itemChance.setText(String.valueOf(chance));
+            chanceChangedByProgram = true;
+            itemChance.setInputType(InputType.TYPE_CLASS_NUMBER);
+            itemChance.setText(String.valueOf(chance));
+            if (!isStatic)
                 itemChance.setInputType(InputType.TYPE_NULL);
-            }
         }
 
         /**

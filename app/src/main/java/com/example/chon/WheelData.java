@@ -22,6 +22,9 @@ public class WheelData {
     private int dynamicCount;
     private int dynamicPortion;
 
+    // Keeps track of max static int
+    private int maxStaticChance;
+
     /**
      * Constructor for WheelData, a data structure that keeps track of items and their chances
      *
@@ -167,23 +170,25 @@ public class WheelData {
     /**
      * Sets the chance of a static item
      *
-     * TODO return error message if item cannot be found
-     * TODO return error message if item is dynamic
-     * TODO return error message if item chance change is too large
+     * Returns whether or not change was applied
      *
      * @param name
      * @param chance
      */
-    void SetChance(String name, int chance) {
+    boolean SetChance(String name, int chance) {
         WheelDataItem itemToSet = wheelItems.get(name);
+
+        // Calculate max static chance size
+        maxStaticChance = 100 - (dynamicCount) - (totalItemChance - dynamicPortion - itemToSet.getChance());
+
         if (itemToSet == null || itemToSet.isDynamic())
-            return;
+            return false;
 
         // Get difference of chance
         int chanceDiff = chance - itemToSet.getChance();
 
-        if (((dynamicPortion - chanceDiff) / dynamicCount) < 1)
-            return;
+        if (chance > maxStaticChance)
+            return false;
 
         dynamicPortion -= chanceDiff;
         int staticBaseChance = dynamicPortion / dynamicCount;
@@ -194,6 +199,8 @@ public class WheelData {
 
         // Update dynamic items
         UpdateDynamicRates(staticBaseChance, staticBasePortion);
+
+        return true;
     }
 
     public void UpdateDynamicRates(int staticBaseChance, int staticLeftover) {
@@ -300,6 +307,10 @@ public class WheelData {
      */
     private int getDynamicPortion() {
         return dynamicPortion;
+    }
+
+    int getMaxStaticChance() {
+        return maxStaticChance;
     }
 
     // ---------------------------------------------------------------
