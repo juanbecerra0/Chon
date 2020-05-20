@@ -270,10 +270,14 @@ public class WheelDataItem {
         }
 
         /**
-         * Removes this UI object from the parent component
+         * Removes this UI object from the parent component, then removes this object from
+         * the Wheel object
          */
         private void SelfDestruct() {
-            // TODO
+            LinearLayout parentLayout = (LinearLayout) layout.getParent();
+            parentLayout.removeView((View) layout);
+
+            // TODO remove from wheel object
         }
     }
 
