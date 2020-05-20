@@ -252,7 +252,7 @@ public class WheelData {
      *
      * @return
      */
-    private int getTotalItemCount() {
+    int getTotalItemCount() {
         return totalItemCount;
     }
 

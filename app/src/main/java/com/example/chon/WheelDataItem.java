@@ -12,6 +12,9 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
+
 public class WheelDataItem {
 
     // ---------------------------------------------------------------
@@ -278,6 +281,12 @@ public class WheelDataItem {
          * the Wheel object
          */
         private void SelfDestruct() {
+            if (parentWheel.getTotalItemCount() <= 2) {
+                Snackbar warning = Snackbar.make((View)layout, "You must have at least two wheel items", BaseTransientBottomBar.LENGTH_SHORT);
+                warning.show();
+                return;
+            }
+
             // Remove from layout
             LinearLayout parentLayout = (LinearLayout) layout.getParent();
             parentLayout.removeView((View) layout);
