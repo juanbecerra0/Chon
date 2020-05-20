@@ -11,6 +11,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -174,6 +175,10 @@ public class WheelDataItem {
         private CheckBox isStaticBox;
         private Button removeButton;
 
+
+        private TextView warningTextName;
+        private boolean nameChangedByProgram;
+
         /**
          * Constructs the UI element object
          *
@@ -195,24 +200,40 @@ public class WheelDataItem {
             inflater.inflate(R.layout.wheel_item_editor, this);
             layout = (LinearLayout) findViewById(R.id.wheelItemEditorLayout);
 
+            // Warning text
+            warningTextName = (TextView) findViewById(R.id.warningTextView);
+
             // Item name box
+            nameChangedByProgram = true;
             itemName = (EditText) findViewById(R.id.itemName);
             itemName.setText(name);
-            // TODO
             itemName.addTextChangedListener(new TextWatcher() {
+                // Do nothing on these
                 @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                }
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+                @Override
+                public void afterTextChanged(Editable s) {}
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    // Check if name was automatically changed by the program rather than the user
+                    if (nameChangedByProgram) {
+                        nameChangedByProgram = false;
+                        return;
+                    }
 
-                }
+                    // Check if name has returned to the old name
+                    if (s.toString().equals(name)) {
+                        warningTextName.setText("");
+                        return;
+                    }
 
-                @Override
-                public void afterTextChanged(Editable s) {
-
+                    // Check if this name change would cause an error. If not, set the new name.
+                    if (!parentWheel.setNewWheelItemName(name, s.toString())) {
+                        warningTextName.setText("The name \"" + s.toString() + "\" is already being used!");
+                    } else {
+                        warningTextName.setText("");
+                    }
                 }
             });
 
@@ -272,7 +293,10 @@ public class WheelDataItem {
          * Internally updates UI name and chance
          */
         public void internalUIUpdate() {
+            nameChangedByProgram = true;
             itemName.setText(name);
+
+
             itemChance.setText(String.valueOf(chance));
         }
 

@@ -234,6 +234,25 @@ public class WheelData {
         return wheelName;
     }
 
+    /**
+     * Sets a wheel item's name to newname
+     *
+     * Returns true if successful
+     *
+     * @param oldName
+     * @param newName
+     * @return whether changed or not
+     */
+    boolean setNewWheelItemName(String oldName, String newName) {
+        if (!wheelItems.containsKey(oldName) || wheelItems.containsKey(newName))
+            return false;
+        else {
+            wheelItems.put(newName, wheelItems.remove(oldName));
+            wheelItems.get(newName).setName(newName);
+            return true;
+        }
+    }
+
     WheelDataItem getWheelDataItem(String name) {
         return wheelItems.get(name);
     }
