@@ -1,10 +1,15 @@
 package com.example.chon;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.LinkedHashMap;
 
@@ -332,8 +337,8 @@ public class WheelData {
     // UI
     // ---------------------------------------------------------------
 
-    public void initUIElement(Context context) {
-        uiElement = new WheelDataUIElement(context);
+    public void initUIElement(Context context, WheelMenu wheelMenu) {
+        uiElement = new WheelDataUIElement(context, wheelMenu);
     }
 
     public LinearLayout getUIElement() {
@@ -349,12 +354,17 @@ public class WheelData {
         private Button editWheel;
         private Button removeWheel;
 
-        public WheelDataUIElement(Context context) {
+        WheelSaveDataManager saveDataManager;
+        private WheelMenu wm;
+
+        public WheelDataUIElement(Context context, WheelMenu wm) {
             super(context);
             initControl(context);
+            saveDataManager = new WheelSaveDataManager(context);
+            this.wm = wm;
         }
 
-        private void initControl(Context context) {
+        private void initControl(final Context context) {
             // layout
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             inflater.inflate(R.layout.activity_wheel_selection, this);
@@ -366,15 +376,52 @@ public class WheelData {
 
             // load wheel
             loadWheel = (Button) findViewById(R.id.loadWheel);
-            // TODO
+            loadWheel.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // TODO
+                }
+            });
 
             // edit wheel
             editWheel = (Button) findViewById(R.id.editWheel);
-            // TODO
+            editWheel.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // TODO
+                }
+            });
 
             // remove wheel
             removeWheel = (Button) findViewById(R.id.removeWheel);
-            // TODO
+            removeWheel.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Check if removable (more than one wheel)
+                    if (saveDataManager.LoadWheelList().size() <= 1) {
+                        Snackbar warning = Snackbar.make((View)layout, "You must have at least one wheel", BaseTransientBottomBar.LENGTH_SHORT);
+                        warning.show();
+                        return;
+                    }
+
+                    // Remove item from wheel list
+                    saveDataManager.RemoveFromWheelList(wheelName);
+
+                    // Remove current if wheel was current, then reset current
+                    if (saveDataManager.LoadCurrentWheel().getWheelName().equals(wheelName)) {
+                        LinkedHashMap<String, WheelData> wheelList = saveDataManager.LoadWheelList();
+                        WheelData currentWheel = null;
+                        for (WheelData i : wheelList.values()) {
+                            currentWheel = i;
+                            break;
+                        }
+                        saveDataManager.SaveCurrentWheel(currentWheel);
+                    }
+
+                    // Finally, reload this page
+                    wm.startActivity(new Intent(wm, WheelMenu.class));
+                }
+            });
 
         }
 

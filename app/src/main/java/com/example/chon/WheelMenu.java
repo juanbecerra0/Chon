@@ -50,7 +50,7 @@ public class WheelMenu extends AppCompatActivity {
         LinkedHashMap<String, WheelData> wheelList = saveDataManager.LoadWheelList();
 
         for (WheelData wd : wheelList.values()) {
-            wd.initUIElement(getBaseContext());
+            wd.initUIElement(getBaseContext(), WheelMenu.this);
             wheelListUI.addView(wd.getUIElement());
         }
     }
