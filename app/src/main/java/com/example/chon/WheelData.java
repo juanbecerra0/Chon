@@ -379,7 +379,11 @@ public class WheelData {
             loadWheel.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // TODO
+                    // Set current wheel to this wheel
+                    saveDataManager.SaveCurrentWheel(saveDataManager.LoadWheelList().get(wheelName));
+
+                    // Return to main menu
+                    wm.startActivity(new Intent(wm, MainActivity.class));
                 }
             });
 
