@@ -2,6 +2,7 @@ package com.example.chon;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -11,7 +12,9 @@ import android.widget.TextView;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Random;
 
 public class WheelData {
 
@@ -298,6 +301,27 @@ public class WheelData {
 
     int getMaxStaticChance() {
         return maxStaticChance;
+    }
+
+    public String getSpinItem() {
+        // Map items 1 -> 100
+        HashMap<Integer, String> randomMap = new HashMap<Integer, String>();
+
+        // Keep track of map index
+        int mapIndex = 1;
+
+        // Loop through each item's chances
+        for (WheelDataItem item : wheelItems.values()) {
+            // For this item's chance value, map inc index to item's name
+            for (int i = 0; i < item.getChance(); i++) {
+                randomMap.put(mapIndex++, item.getName());
+            }
+        }
+
+        // Pick a random value between 1 and 100 to return
+        Random rand = new Random();
+        int chosenIndex = rand.nextInt(100) + 1;
+        return randomMap.get(chosenIndex);
     }
 
     // ---------------------------------------------------------------
