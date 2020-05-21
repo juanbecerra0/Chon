@@ -167,6 +167,9 @@ public class WheelEditor extends AppCompatActivity {
                 if (wheelNames.contains(s.toString()) && !s.toString().equals(thisWheel.getWheelName())) {
                     nameError.setText("Name taken");
                     saveWheelButton.setEnabled(false);
+                } else if (s.toString().equals("")) {
+                    nameError.setText("Please enter name");
+                    saveWheelButton.setEnabled(false);
                 } else {
                     nameError.setText("");
                     saveWheelButton.setEnabled(true);
