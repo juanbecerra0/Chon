@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,7 +21,7 @@ import java.util.Set;
 public class WheelEditor extends AppCompatActivity {
 
     // This wheel data
-    private WheelData thisWheel;
+    public WheelData thisWheel;
 
     // Buttons
     private Button saveWheelButton;
@@ -31,7 +32,7 @@ public class WheelEditor extends AppCompatActivity {
     private EditText wheelName;
 
     // Item list
-    private LinearLayout wheelItemsUI;
+    public LinearLayout wheelItemsUI;
 
     // List of all saved wheels (to check names)
     private WheelSaveDataManager saveDataManager;
@@ -46,13 +47,13 @@ public class WheelEditor extends AppCompatActivity {
         saveDataManager = new WheelSaveDataManager(getBaseContext());
         wheelNames = saveDataManager.getSavedWheelNames();
 
-        String wheelName = "NewWheel1";
+        String wheelAutoName = "NewWheel1";
         int nameInt = 1;
-        while(wheelNames.contains(wheelName)) {
-            wheelName = "NewWheel" + (++nameInt);
+        while(wheelNames.contains(wheelAutoName)) {
+            wheelAutoName = "NewWheel" + (++nameInt);
         }
 
-        thisWheel = new WheelData(wheelName);
+        thisWheel = new WheelData(wheelAutoName);
 
         configButtons();
         configText();
@@ -157,7 +158,7 @@ public class WheelEditor extends AppCompatActivity {
         wheelItemsUI = (LinearLayout) findViewById(R.id.wheelItemsUI);
     }
 
-    private void LoadUIElement(WheelDataItem i) {
+    public void LoadUIElement(WheelDataItem i) {
         i.initUiElement(getBaseContext());
         wheelItemsUI.addView(i.getUIElement());
     }
@@ -165,7 +166,7 @@ public class WheelEditor extends AppCompatActivity {
     /**
      * Updates the user interface to display information
      */
-    private void UpdateWheelUI() {
+    public void UpdateWheelUI() {
         // Update info on all elements
         boolean allSavable = true;
         for (WheelDataItem i : thisWheel.getHashMap().values()) {

@@ -216,7 +216,7 @@ public class WheelData {
      * @param name
      */
     public void setWheelName(String name) {
-        this.wheelName = wheelName;
+        this.wheelName = name;
     }
 
     /**
@@ -392,7 +392,11 @@ public class WheelData {
             editWheel.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // TODO
+                    // Load this wheel data into WheelEditor
+                    // TODO how the fuck
+
+                    // Swap to wheel editor
+                    wm.startActivity(new Intent(wm, WheelEditor.class));
                 }
             });
 
