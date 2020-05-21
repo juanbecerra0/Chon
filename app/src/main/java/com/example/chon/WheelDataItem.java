@@ -231,6 +231,12 @@ public class WheelDataItem {
                         return;
                     }
 
+                    // Check if name is blank
+                    if (s.toString().equals("")) {
+                        warningText.setText("Name cannot be blank");
+                        return;
+                    }
+
                     // Check if this name change would cause an error. If not, set the new name.
                     if (!parentWheel.setNewWheelItemName(name, s.toString())) {
                         warningText.setText("The name \"" + s.toString() + "\" is already being used!");

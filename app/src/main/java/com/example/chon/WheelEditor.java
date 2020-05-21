@@ -168,7 +168,7 @@ public class WheelEditor extends AppCompatActivity {
                     nameError.setText("Name taken");
                     saveWheelButton.setEnabled(false);
                 } else if (s.toString().equals("")) {
-                    nameError.setText("Please enter name");
+                    nameError.setText("Name cannot be blank");
                     saveWheelButton.setEnabled(false);
                 } else {
                     nameError.setText("");
