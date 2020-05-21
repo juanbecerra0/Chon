@@ -31,27 +31,13 @@
                 android:layout_weight="1" />
 
             <TextView
-                android:id="@+id/currentPercent"
+                android:id="@+id/nameWarning"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="right"
-                android:text="0%" />
-
-            <TextView
-                android:id="@+id/slash"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text=" / " />
-
-            <TextView
-                android:id="@+id/outOfPercent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="100%" />
+                android:text=""
+                android:textAlignment="center"
+                android:textColor="@android:color/holo_red_light" />
 
             <Space
                 android:layout_width="wrap_content"

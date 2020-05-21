@@ -27,7 +27,7 @@ public class WheelEditor extends AppCompatActivity {
     private Button newItemButton;
 
     // Text fields
-    private TextView totalChance;
+    private TextView nameError;
     private EditText wheelName;
 
     // Item list
@@ -113,8 +113,7 @@ public class WheelEditor extends AppCompatActivity {
 
     private void configText() {
         // Total chance
-        totalChance = (TextView) findViewById(R.id.currentPercent);
-        totalChance.setText(thisWheel.getTotalChancePercent());
+        nameError = (TextView) findViewById(R.id.nameWarning);
 
         // Wheel name
         wheelName = (EditText) findViewById(R.id.wheelNameField);
@@ -127,12 +126,25 @@ public class WheelEditor extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                if (wheelNames.contains(s.toString()) && !s.toString().equals(thisWheel.getWheelName())) {
+                    nameError.setText("Name taken");
+                    saveWheelButton.setEnabled(false);
+                } else {
+                    nameError.setText("");
+                    saveWheelButton.setEnabled(true);
+                }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
 
+            }
+        });
+
+        wheelName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                UpdateWheelUI();
             }
         });
 
@@ -157,12 +169,8 @@ public class WheelEditor extends AppCompatActivity {
             }
         }
 
-        // Update current total chance
-        totalChance.setText(thisWheel.getTotalChancePercent());
-
         // Check if wheel is savable
-        // TODO check if name is taken
-        saveWheelButton.setEnabled(thisWheel.getTotalItemChance() == 100 && allSavable);
+        saveWheelButton.setEnabled(thisWheel.getTotalItemChance() == 100 && allSavable && nameError.getText().equals(""));
     }
 
 }
