@@ -325,6 +325,15 @@ public class WheelDataItem {
             isStaticBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                    // Check if this is the last dynamic item
+                    if (parentWheel.getDynamicCount() <= 1 && isChecked) {
+                        Snackbar warning = Snackbar.make((View)layout, "You must have at least one dynamic item", BaseTransientBottomBar.LENGTH_SHORT);
+                        warning.show();
+                        isStaticBox.setChecked(false);
+                        return;
+                    }
+
                     // Toggle static
                     parentWheel.ToggleStatic(name, isChecked);
                     // Update whether or not field is editable

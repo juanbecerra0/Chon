@@ -286,7 +286,7 @@ public class WheelData {
      *
      * @return
      */
-    private int getDynamicCount() {
+    int getDynamicCount() {
         return dynamicCount;
     }
 
@@ -295,7 +295,7 @@ public class WheelData {
      *
      * @return
      */
-    private int getDynamicPortion() {
+    int getDynamicPortion() {
         return dynamicPortion;
     }
 
