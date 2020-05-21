@@ -16,7 +16,7 @@ android:id = "@+id/mainMenu">
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:fontFamily="serif-monospace"
-            android:text="Chon!"
+            android:text=""
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textSize="72sp"
@@ -58,7 +58,7 @@ android:id = "@+id/mainMenu">
                 android:text=""
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textColor="@android:color/holo_blue_bright" />
+                android:textColor="@android:color/holo_red_dark" />
         </LinearLayout>
 
         <Button

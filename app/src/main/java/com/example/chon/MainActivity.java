@@ -11,8 +11,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.LinkedHashMap;
 
 public class MainActivity extends AppCompatActivity {
@@ -20,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     private WheelData wheel;
 
     // UI elements
-    private OpenGLView openGLWheel;
+    private OpenGLView openGLView;
     private Button wheelMenuButton;
     private Button rollButton;
     private TextView resultText;
@@ -45,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void ConfigUI() {
         // OpenGL rendering context
-        openGLWheel = (OpenGLView) findViewById(R.id.openGLWheel);
+        openGLView = (OpenGLView) findViewById(R.id.openGLWheel);
 
         // Wheel selection button
         wheelMenuButton = (Button) findViewById(R.id.wheelMenuButton);
@@ -131,13 +129,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        openGLWheel.onResume();
+        openGLView.onResume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        openGLWheel.onPause();
+        openGLView.onPause();
     }
 
 }

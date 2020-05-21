@@ -13,8 +13,8 @@ import java.util.HashMap;
 
 public class ShaderProgram {
 
- //   public String vertexShaderSource;
- //   public String fragmentShaderSource;
+    //   public String vertexShaderSource;
+    //   public String fragmentShaderSource;
 
     private String vertexShaderSource;
     private String fragmentShaderSource;
@@ -43,6 +43,7 @@ public class ShaderProgram {
         }catch (NullPointerException e) {
             throw new IllegalStateException("Not working 1 ",e);
         }
+
         try{
             fragmentShaderSource = fragmentShader;
         }catch (NullPointerException e) {
