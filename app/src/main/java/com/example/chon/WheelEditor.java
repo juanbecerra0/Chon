@@ -78,8 +78,13 @@ public class WheelEditor extends AppCompatActivity {
         saveWheelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Append this object to the end of the static wheel list
+                // Remove from object from save data (if it exists), then add to save data
+                saveDataManager.RemoveFromWheelList(thisWheel.getWheelName());
+                thisWheel.setWheelName(wheelName.getText().toString());
+                saveDataManager.AddToWheelList(thisWheel);
 
+                // Finally, return to wheel editor menu
+                startActivity(new Intent(WheelEditor.this, WheelMenu.class));
             }
         });
 

@@ -136,6 +136,17 @@ public class WheelSaveDataManager extends AppCompatActivity {
         }
     }
 
+    public boolean RemoveFromWheelList(String oldName) {
+        LinkedHashMap<String, WheelData> wheelList = LoadWheelList();
+        if (!wheelList.containsKey(oldName)) {
+            return false;
+        } else {
+            wheelList.remove(oldName);
+            SaveWheelList(wheelList);
+            return true;
+        }
+    }
+
     public Set<String> getSavedWheelNames() {
         return LoadWheelList().keySet();
     }
