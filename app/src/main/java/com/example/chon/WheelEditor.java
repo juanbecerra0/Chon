@@ -127,8 +127,7 @@ public class WheelEditor extends AppCompatActivity {
 
     private void LoadUIElement(WheelDataItem i) {
         i.initUiElement(getBaseContext());
-        wheelItemsUI.addView(i.getUiElement());
-        i.updateUI();
+        wheelItemsUI.addView(i.getUIElement());
     }
 
     /**

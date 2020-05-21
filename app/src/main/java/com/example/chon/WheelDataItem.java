@@ -155,7 +155,7 @@ public class WheelDataItem {
      * Returns the UI object of this item
      * @return
      */
-    public WheelDataUIElement getUiElement() {
+    public WheelDataUIElement getUIElement() {
         return uiElement;
     }
 

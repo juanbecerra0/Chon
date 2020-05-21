@@ -2,11 +2,14 @@ package com.example.chon;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -84,9 +87,11 @@ public class WheelSaveDataManager extends AppCompatActivity {
 
         // Create GSON object, and turn back into WheelData object
         Gson gson = new Gson();
-        LinkedHashMap<String, WheelData> wdList = gson.fromJson(wheelListJSON, LinkedHashMap.class);
+        Type type = new TypeToken<LinkedHashMap<String, WheelData>>(){}.getType();
+        LinkedHashMap<String, WheelData> wdList = gson.fromJson(wheelListJSON, type);
 
         if (wdList == null) {
+            Log.v("SaveManager", "Loaded null list, making new empty list");
             wdList = new LinkedHashMap<String, WheelData>();
         }
 

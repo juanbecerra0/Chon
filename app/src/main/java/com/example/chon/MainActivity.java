@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -61,12 +62,14 @@ public class MainActivity extends AppCompatActivity {
                 }
             } else {
                 currentWheel = new WheelData("NewWheel1");
-                saveDataManager.AddToWheelList(currentWheel);
             }
 
             // Save as current
             saveDataManager.SaveCurrentWheel(currentWheel);
         }
+
+        // Check if current needs to be added to wheel list
+        saveDataManager.AddToWheelList(currentWheel);
 
         return currentWheel;
     }

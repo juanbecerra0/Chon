@@ -1,6 +1,10 @@
 package com.example.chon;
 
-import com.google.gson.Gson;
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.LinkedHashMap;
 
@@ -24,6 +28,9 @@ public class WheelData {
 
     // Keeps track of max static int
     private int maxStaticChance;
+
+    // UI elements
+    private transient WheelDataUIElement uiElement;
 
     /**
      * Constructor for WheelData, a data structure that keeps track of items and their chances
@@ -292,16 +299,6 @@ public class WheelData {
     // UI getters
     // ---------------------------------------------------------------
 
-    /**
-     * Gets the Json string representation
-     *
-     * @return
-     */
-    String getJsonString() {
-        Gson gson = new Gson();
-        return gson.toJson(this);
-    }
-
     String getTotalChancePercent() {
         return this.getTotalItemChance() + "%";
     }
@@ -329,5 +326,57 @@ public class WheelData {
         sb.append("--------------------------------------\n\n");
 
         return sb.toString();
+    }
+
+    // ---------------------------------------------------------------
+    // UI
+    // ---------------------------------------------------------------
+
+    public void initUIElement(Context context) {
+        uiElement = new WheelDataUIElement(context);
+    }
+
+    public LinearLayout getUIElement() {
+        return uiElement;
+    }
+
+    private class WheelDataUIElement extends LinearLayout {
+
+        // Layout elements
+        private LinearLayout layout;
+        private TextView wheelNameTextView;
+        private Button loadWheel;
+        private Button editWheel;
+        private Button removeWheel;
+
+        public WheelDataUIElement(Context context) {
+            super(context);
+            initControl(context);
+        }
+
+        private void initControl(Context context) {
+            // layout
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            inflater.inflate(R.layout.activity_wheel_selection, this);
+            layout = (LinearLayout) findViewById(R.id.wheelSelection);
+
+            // name
+            wheelNameTextView = (TextView) findViewById(R.id.wheelNameTextView);
+            wheelNameTextView.setText(wheelName);
+
+            // load wheel
+            loadWheel = (Button) findViewById(R.id.loadWheel);
+            // TODO
+
+            // edit wheel
+            editWheel = (Button) findViewById(R.id.editWheel);
+            // TODO
+
+            // remove wheel
+            removeWheel = (Button) findViewById(R.id.removeWheel);
+            // TODO
+
+        }
+
     }
 }
