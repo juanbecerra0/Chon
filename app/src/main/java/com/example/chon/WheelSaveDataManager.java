@@ -11,8 +11,10 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.Set;
 
 public class WheelSaveDataManager extends AppCompatActivity {
 
@@ -132,6 +134,10 @@ public class WheelSaveDataManager extends AppCompatActivity {
             SaveWheelList(wheelList);
             return true;
         }
+    }
+
+    public Set<String> getSavedWheelNames() {
+        return LoadWheelList().keySet();
     }
 
 }

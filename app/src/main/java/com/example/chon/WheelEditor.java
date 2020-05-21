@@ -15,6 +15,8 @@ import android.widget.TextView;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.Set;
+
 public class WheelEditor extends AppCompatActivity {
 
     // This wheel data
@@ -31,13 +33,26 @@ public class WheelEditor extends AppCompatActivity {
     // Item list
     private LinearLayout wheelItemsUI;
 
+    // List of all saved wheels (to check names)
+    private WheelSaveDataManager saveDataManager;
+    private Set<String> wheelNames;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wheel_editor);
 
-        // TODO generate a unique name
-        thisWheel = new WheelData("New wheel");
+        // Get set of all wheel names
+        saveDataManager = new WheelSaveDataManager(getBaseContext());
+        wheelNames = saveDataManager.getSavedWheelNames();
+
+        String wheelName = "NewWheel1";
+        int nameInt = 1;
+        while(wheelNames.contains(wheelName)) {
+            wheelName = "NewWheel" + (++nameInt);
+        }
+
+        thisWheel = new WheelData(wheelName);
 
         configButtons();
         configText();
