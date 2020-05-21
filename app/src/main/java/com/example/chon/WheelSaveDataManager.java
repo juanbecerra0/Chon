@@ -21,8 +21,12 @@ public class WheelSaveDataManager extends AppCompatActivity {
     // Strings for saving and loading from preferences
     private final static String WHEEL_CURRENT = "wheelCurrentPref";
     private final static String WHEEL_CURRENT_KEY = "Wheel_Current_Pref";
+
     private final static String WHEEL_LIST = "wheelListPref";
     private final static String WHEEL_LIST_KEY = "Wheel_List_Pref";
+
+    private final static String WHEEL_EDIT = "wheelEditPref";
+    private final static String WHEEL_EDIT_KEY = "Wheel_Edit_Pref";
 
     // Context
     private Context ctx;
@@ -122,6 +126,40 @@ public class WheelSaveDataManager extends AppCompatActivity {
         // Put json string into shared preferences
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(WHEEL_LIST_KEY, currentWheelJSON);
+        editor.commit();
+    }
+
+    public WheelData LoadWheelToEdit() {
+        // Create shared preferences
+        SharedPreferences sharedPreferences = ctx.getSharedPreferences(WHEEL_EDIT, MODE_PRIVATE);
+
+        // Get saved string
+        String currentWheelJSON = sharedPreferences.getString(WHEEL_EDIT_KEY, "");
+
+        // Create GSON object, and turn back into WheelData object
+        Gson gson = new Gson();
+        WheelData wd = gson.fromJson(currentWheelJSON, WheelData.class);
+
+        // Clear this disk space
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(WHEEL_EDIT_KEY, "");
+        editor.commit();
+
+        return wd;
+    }
+
+    public void SaveWheelToEdit(WheelData wd) {
+        Gson gson = new Gson();
+
+        // Get Gson string
+        String currentWheelJSON = gson.toJson(wd);
+
+        // Create shared preferences
+        SharedPreferences sharedPreferences = ctx.getSharedPreferences(WHEEL_EDIT, MODE_PRIVATE);
+
+        // Put json string into shared preferences
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(WHEEL_EDIT_KEY, currentWheelJSON);
         editor.commit();
     }
 

@@ -38,6 +38,9 @@ public class WheelEditor extends AppCompatActivity {
     private WheelSaveDataManager saveDataManager;
     private Set<String> wheelNames;
 
+    // Reload current flag
+    private boolean reloadCurrentWheelFlag = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,21 +50,45 @@ public class WheelEditor extends AppCompatActivity {
         saveDataManager = new WheelSaveDataManager(getBaseContext());
         wheelNames = saveDataManager.getSavedWheelNames();
 
-        String wheelAutoName = "NewWheel1";
-        int nameInt = 1;
-        while(wheelNames.contains(wheelAutoName)) {
-            wheelAutoName = "NewWheel" + (++nameInt);
+        // Check if a wheel was loaded in
+        WheelData loadedWheel = saveDataManager.LoadWheelToEdit();
+
+        if (loadedWheel == null) {
+            // Generate new wheel
+            // Generate new wheel name
+            String wheelAutoName = "NewWheel1";
+            int nameInt = 1;
+            while(wheelNames.contains(wheelAutoName)) {
+                wheelAutoName = "NewWheel" + (++nameInt);
+            }
+
+            thisWheel = new WheelData(wheelAutoName);
+        } else {
+            // Load saved wheel
+            thisWheel = loadedWheel;
+
+            // Initialize UI and parent wheel for each wheel item
+            for (WheelDataItem i : thisWheel.getHashMap().values()) {
+                i.loadParentWheel(thisWheel);
+                i.initUiElement(getBaseContext());
+            }
+
+            // Check if current wheel must be reloaded
+            if (saveDataManager.LoadCurrentWheel().getWheelName().equals(thisWheel.getWheelName())) {
+                reloadCurrentWheelFlag = true;
+            }
         }
 
-        thisWheel = new WheelData(wheelAutoName);
-
+        // Config UI
         configButtons();
         configText();
 
+        // Add specific UI elements
         for (WheelDataItem i : thisWheel.getHashMap().values()) {
             LoadUIElement(i);
         }
         UpdateWheelUI();
+
     }
 
     private void configButtons() {
@@ -83,6 +110,11 @@ public class WheelEditor extends AppCompatActivity {
                 saveDataManager.RemoveFromWheelList(thisWheel.getWheelName());
                 thisWheel.setWheelName(wheelName.getText().toString());
                 saveDataManager.AddToWheelList(thisWheel);
+
+                // Check if current wheel needs to be updated
+                if (reloadCurrentWheelFlag) {
+                    saveDataManager.SaveCurrentWheel(thisWheel);
+                }
 
                 // Finally, return to wheel editor menu
                 startActivity(new Intent(WheelEditor.this, WheelMenu.class));

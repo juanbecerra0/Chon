@@ -49,9 +49,7 @@ public class WheelDataItem {
     // Utility
     // ---------------------------------------------------------------
 
-    void ReloadJSON(WheelData parentWheel) {
-        this.parentWheel = parentWheel;
-    }
+    void loadParentWheel(WheelData parentWheel) { this.parentWheel = parentWheel; }
 
     // ---------------------------------------------------------------
     // Setters and getters

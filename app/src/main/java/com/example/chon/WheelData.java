@@ -392,10 +392,10 @@ public class WheelData {
             editWheel.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // Load this wheel data into WheelEditor
-                    // TODO how the fuck
+                    // Save this wheel data into wheel edit slot
+                    saveDataManager.SaveWheelToEdit(saveDataManager.LoadWheelList().get(wheelName));
 
-                    // Swap to wheel editor
+                    // Switch to the WheelReEditor
                     wm.startActivity(new Intent(wm, WheelEditor.class));
                 }
             });
