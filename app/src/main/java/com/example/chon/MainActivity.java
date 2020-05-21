@@ -20,8 +20,8 @@ public class MainActivity extends AppCompatActivity {
     private WheelData wheel;
 
     // UI elements
+    private OpenGLView openGLWheel;
     private Button wheelMenuButton;
-    private TextView menuTestText;
     private Button rollButton;
     private TextView resultText;
 
@@ -33,20 +33,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Config UI
-        ConfigUI();
-
         // Load current wheel
         wheel = loadCurrentWheel();
 
-        // TODO TEST load current wheel information
-        menuTestText = (TextView) findViewById(R.id.menu_test);
-        menuTestText.setText(wheel.toString());
+        // Config UI
+        ConfigUI();
 
-        wheelMenuButton.setText(wheel.getWheelName());
+        // TODO OpenGL stuff
+
     }
 
     private void ConfigUI() {
+        // OpenGL rendering context
+        openGLWheel = (OpenGLView) findViewById(R.id.openGLWheel);
+
         // Wheel selection button
         wheelMenuButton = (Button) findViewById(R.id.wheelMenuButton);
         wheelMenuButton.setOnClickListener(new View.OnClickListener() {
@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        wheelMenuButton.setText(wheel.getWheelName());
 
         // music player
         funhausSong = MediaPlayer.create(this, R.raw.wheelhaus);
@@ -124,6 +125,19 @@ public class MainActivity extends AppCompatActivity {
             }
         }, funhausSong.getDuration());
 
+    }
+
+    // Open GL rendering
+    @Override
+    protected void onResume() {
+        super.onResume();
+        openGLWheel.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        openGLWheel.onPause();
     }
 
 }
