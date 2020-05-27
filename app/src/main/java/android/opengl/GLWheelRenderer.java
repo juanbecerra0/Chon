@@ -5,10 +5,15 @@ import javax.microedition.khronos.opengles.GL10;
 
 public class GLWheelRenderer implements GLSurfaceView.Renderer {
 
+    private Square mSquare;
+
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         // Set background color
         GLES20.glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
+
+        // Create square
+        mSquare = new Square();
     }
 
     @Override
@@ -20,5 +25,7 @@ public class GLWheelRenderer implements GLSurfaceView.Renderer {
     public void onDrawFrame(GL10 gl) {
         // Redraw background color
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
+
+        mSquare.draw();
     }
 }
