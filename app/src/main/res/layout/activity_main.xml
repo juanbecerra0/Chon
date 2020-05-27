@@ -29,8 +29,11 @@ android:id = "@+id/mainMenu">
         android:orientation="vertical"
         android:layout_gravity = "center">
 
-        <com.example.chon.OpenGLView
-            android:id="@+id/openGLWheel"
+        <!-- <com.example.chon.GLWheelView -->
+        <!-- <android.opengl.GLSurfaceView -->
+
+        <android.opengl.GLWheelView
+            android:id="@+id/glView"
             android:layout_width="match_parent"
             android:layout_height="400dp" />
 
