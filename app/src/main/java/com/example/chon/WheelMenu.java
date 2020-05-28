@@ -56,4 +56,11 @@ public class WheelMenu extends AppCompatActivity {
             wheelListUI.addView(wd.getUIElement());
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        // Go back to main menu
+        startActivity(new Intent(WheelMenu.this, MainActivity.class));
+        finish();
+    }
 }

@@ -216,4 +216,10 @@ public class WheelEditor extends AppCompatActivity {
         saveWheelButton.setEnabled(thisWheel.getTotalItemChance() == 100 && allSavable && nameError.getText().equals(""));
     }
 
+    @Override
+    public void onBackPressed() {
+        // Discard changes and return to wheel menu
+        startActivity(new Intent(WheelEditor.this, WheelMenu.class));
+        finish();
+    }
 }
