@@ -41,6 +41,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void ConfigUI() {
+        // Hide support bar
+        this.getSupportActionBar().hide();
+
         // OpenGL rendering context
         // glView = new GLWheelView(this);
         glView = (GLWheelView) findViewById(R.id.glView);

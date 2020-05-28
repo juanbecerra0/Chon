@@ -23,6 +23,9 @@ public class WheelMenu extends AppCompatActivity {
     }
 
     private void ConfigUI() {
+        // Hide support bar
+        this.getSupportActionBar().hide();
+
         // Return button
         Button mainMenuButton = (Button) findViewById(R.id.mainMenuButton);
         mainMenuButton.setOnClickListener(new View.OnClickListener() {

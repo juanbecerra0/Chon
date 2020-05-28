@@ -92,6 +92,9 @@ public class WheelEditor extends AppCompatActivity {
     }
 
     private void configButtons() {
+        // Hide support bar
+        this.getSupportActionBar().hide();
+
         // Discard changes button
         Button wheelMenuButton = (Button) findViewById(R.id.wheelMenuButton);
         wheelMenuButton.setOnClickListener(new View.OnClickListener() {
