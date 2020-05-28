@@ -10,9 +10,15 @@ public class Square {
     private ShortBuffer drawListBuffer;
 
     private final String vertexShaderCode =
-            "attribute vec4 vPosition;" +
+            // This matrix member variable provides a hook to manipulate
+            // the coordinates of the objects that use this vertex shader
+            "uniform mat4 uMVPMatrix;" +
+                    "attribute vec4 vPosition;" +
                     "void main() {" +
-                    "  gl_Position = vPosition;" +
+                    // the matrix must be included as a modifier of gl_Position
+                    // Note that the uMVPMatrix factor *must be first* in order
+                    // for the matrix multiplication product to be correct.
+                    "  gl_Position = uMVPMatrix * vPosition;" +
                     "}";
 
     private final String fragmentShaderCode =
@@ -37,6 +43,7 @@ public class Square {
     //------------------------
 
     private final int mProgram;
+    private int vPMatrixHandle;
 
     //------------------------
     // Drawing
@@ -99,7 +106,7 @@ public class Square {
         return shader;
     }
 
-    public void draw() {
+    public void draw(float[] mvpMatrix) {
         // Add program to OpenGL ES environment
         GLES20.glUseProgram(mProgram);
 
@@ -120,6 +127,12 @@ public class Square {
         // Set color for drawing the square
         float[] color = {1f, 0f, 0f, 1f};
         GLES20.glUniform4fv(colorHandle, 1, color, 0);
+
+        // get handle to shape's transformation matrix
+        vPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
+
+        // Pass the projection and view transformation to the shader
+        GLES20.glUniformMatrix4fv(vPMatrixHandle, 1, false, mvpMatrix, 0);
 
         // Draw the square
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_FAN, 0, vertexCount);
