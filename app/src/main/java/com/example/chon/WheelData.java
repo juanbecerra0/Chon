@@ -408,6 +408,7 @@ public class WheelData {
 
                     // Return to main menu
                     wm.startActivity(new Intent(wm, MainActivity.class));
+                    wm.finish();
                 }
             });
 
@@ -421,6 +422,7 @@ public class WheelData {
 
                     // Switch to the WheelReEditor
                     wm.startActivity(new Intent(wm, WheelEditor.class));
+                    wm.finish();
                 }
             });
 
@@ -452,6 +454,7 @@ public class WheelData {
 
                     // Finally, reload this page
                     wm.startActivity(new Intent(wm, WheelMenu.class));
+                    wm.finish();
                 }
             });
 

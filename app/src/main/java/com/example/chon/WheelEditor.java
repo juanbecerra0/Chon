@@ -98,6 +98,7 @@ public class WheelEditor extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(WheelEditor.this, WheelMenu.class));
+                finish();
             }
         });
 
@@ -116,8 +117,9 @@ public class WheelEditor extends AppCompatActivity {
                     saveDataManager.SaveCurrentWheel(thisWheel);
                 }
 
-                // Finally, return to wheel editor menu
-                startActivity(new Intent(WheelEditor.this, WheelMenu.class));
+                // Finally, return to main menu
+                startActivity(new Intent(WheelEditor.this, MainActivity.class));
+                finish();
             }
         });
 

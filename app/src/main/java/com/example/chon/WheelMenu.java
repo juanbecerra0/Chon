@@ -29,6 +29,7 @@ public class WheelMenu extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(WheelMenu.this, MainActivity.class));
+                finish();
             }
         });
 
@@ -38,6 +39,7 @@ public class WheelMenu extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(WheelMenu.this, WheelEditor.class));
+                finish();
             }
         });
 
