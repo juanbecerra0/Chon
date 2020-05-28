@@ -4,7 +4,12 @@ Get Sean (Chon) to finally pick something to watch while we wait for this pandem
 Chon is an Android (possibly iOS in the future) app developed with a single purpose in mind: spend less time scrolling through Netflix and more time indulging in self-destructive lifestyles. This app features several slices that can take up a wheel, and the wheel is spun to allow users to randomly decide on a place to eat, movie to watch, or TV show to blare in the background of playing Animal Crossing: New Horizons.
 
 # Known Bugs
-- Let me know lmao
+- The wheel is a square (because it hasn't been programmed yet) 
+- Saving a wheel does not load it as the current wheel
+- There is no confirmation for discarding or deleting wheels
+- WheelEditor dynamic UI elements do not immediately update when changing the chance of a static item
+- Wheel and wheel item names should be allowed to be longer
+- Wheel name editor auto-capitalizes every word in its text field
 
 # Log
 
