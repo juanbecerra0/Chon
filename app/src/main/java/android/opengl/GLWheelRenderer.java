@@ -16,6 +16,7 @@ public class GLWheelRenderer implements GLSurfaceView.Renderer {
     private final float[] viewMatrix = new float[16];
 
     // Used in rotation animation
+    private float angle = 0f;
     private float[] rotationMatrix = new float[16];
 
     // Wheel data used to create GLWheelShapes
@@ -68,8 +69,8 @@ public class GLWheelRenderer implements GLSurfaceView.Renderer {
         float[] scratch = new float[16];
 
         // Create a rotation transformation for the triangle
-        long time = SystemClock.uptimeMillis() % 4000L;
-        float angle = 0.090f * ((int) time);
+        //long time = SystemClock.uptimeMillis() % 4000L;
+        //float angle = 0.090f * ((int) time);
         Matrix.setRotateM(rotationMatrix, 0, angle, 0, 0, -1.0f);
 
         // Combine the rotation matrix with the projection and camera view
@@ -82,5 +83,9 @@ public class GLWheelRenderer implements GLSurfaceView.Renderer {
         for (GLWheelShape shape : wheelShapes) {
             shape.draw(scratch);
         }
+    }
+
+    public void setRotationAngle(float angle) {
+        this.angle = angle;
     }
 }

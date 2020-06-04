@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Sound media player
     private MediaPlayer funhausSong;
+    private long funhausSongDuration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,10 +61,6 @@ public class MainActivity extends AppCompatActivity {
         });
         wheelMenuButton.setText(wheel.getWheelName());
 
-        // music player
-        funhausSong = MediaPlayer.create(this, R.raw.wheelhaus);
-        float t = funhausSong.getDuration();
-
         // roll button
         rollButton = (Button) findViewById(R.id.rollButton);
         rollButton.setOnClickListener(new View.OnClickListener() {
@@ -76,6 +73,9 @@ public class MainActivity extends AppCompatActivity {
         // Result text
         resultText = (TextView) findViewById(R.id.result);
 
+        // Funhaus song
+        funhausSong = MediaPlayer.create(this, R.raw.wheelhaus);
+        funhausSongDuration = funhausSong.getDuration();
     }
 
     private WheelData loadCurrentWheel() {
@@ -125,8 +125,36 @@ public class MainActivity extends AppCompatActivity {
                 rollButton.setEnabled(true);
                 wheelMenuButton.setEnabled(true);
             }
-        }, funhausSong.getDuration());
+        }, funhausSongDuration);
 
+        // Animate the wheel on its own thread
+        Thread animateWheel = new Thread() {
+            public void run () {
+                try {
+
+                    for (int i = 0; i < (funhausSongDuration * 0.4); i++) {
+                        float lerpAmount = (float) (((float)i) / (funhausSongDuration * 0.4));
+
+                        ((GLWheelView) glView).setRotationAngle(inOutQuadBlend(lerpAmount) * (360f * 5));
+                        Thread.sleep(1);
+                    }
+
+                } catch (InterruptedException e) {
+                    System.out.println(e);
+                }
+            }
+        };
+
+        animateWheel.start();
+
+    }
+
+    private float inOutQuadBlend(float t) {
+        if (t <= 0.5f)
+            return 2.0f * t * t;
+
+        t -= 0.5f;
+        return 2.0f * t * (1.0f - t) + 0.5f;
     }
 
     @Override

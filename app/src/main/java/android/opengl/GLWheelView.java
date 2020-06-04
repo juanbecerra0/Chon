@@ -22,4 +22,8 @@ public class GLWheelView extends GLSurfaceView {
         // Set the renderer for drawing on the GLSurfaceView
         setRenderer(renderer);
     }
+
+    public void setRotationAngle(float angle) {
+        renderer.setRotationAngle(angle);
+    }
 }
