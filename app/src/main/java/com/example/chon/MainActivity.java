@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
 
     // Wheel animation constants
     private final float SPIN_DEGREES = 5 * 360f;
-    private final float THREAD_OFFSET = 1f;//0.4f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,35 +131,30 @@ public class MainActivity extends AppCompatActivity {
             }
         }, funhausSongDuration);
 
+        //funhausSong.
+
         // Animate the wheel on its own thread
         Thread animateWheel = new Thread() {
             public void run () {
-                try {
+                // Determine the end angle
+                Random rand = new Random();
+                float endAngle = 0f;
 
-                    // Determine the end angle
-                    Random rand = new Random();
-                    float endAngle = 0f;
-
-                    Object[] items = wheel.getWheelDataItemsAsArray();
-                    int prevChance = 0;
-                    for (Object i : items) {
-                        if ( !((WheelDataItem)i).getName().equals(winningItem) ) {
-                            prevChance += ((WheelDataItem)i).getChance();
-                        } else {
-                            endAngle = ((float)prevChance / 100 +
-                                    (rand.nextFloat() * ((WheelDataItem)i).getChance()) / 100) * 360f;
-                        }
+                Object[] items = wheel.getWheelDataItemsAsArray();
+                int prevChance = 0;
+                for (Object i : items) {
+                    if ( !((WheelDataItem)i).getName().equals(winningItem) ) {
+                        prevChance += ((WheelDataItem)i).getChance();
+                    } else {
+                        endAngle = ((float)prevChance / 100 +
+                                (rand.nextFloat() * ((WheelDataItem)i).getChance()) / 100) * 360f;
                     }
+                }
 
-                    for (int i = 0; i < (funhausSongDuration * THREAD_OFFSET); i++) {
-                        float lerpAmount = (float) (((float)i) / (funhausSongDuration * THREAD_OFFSET));
+                while(funhausSong.isPlaying()) {
+                    float lerpAmount = (float)funhausSong.getCurrentPosition() / funhausSongDuration;
 
-                        ((GLWheelView) glView).setRotationAngle( inOutQuadBlend(lerpAmount) * (SPIN_DEGREES + endAngle));
-                        Thread.sleep(1);
-                    }
-
-                } catch (InterruptedException e) {
-                    System.out.println(e);
+                    ((GLWheelView) glView).setRotationAngle( inOutQuadBlend(lerpAmount) * (SPIN_DEGREES + endAngle));
                 }
             }
         };
