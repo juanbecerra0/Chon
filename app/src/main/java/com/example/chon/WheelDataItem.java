@@ -297,6 +297,9 @@ public class WheelDataItem {
                         // For each element, update UI (once we click off)
                         warningText.setText("");
                         canChangeChance = true;
+                        for (WheelDataItem i : parentWheel.getHashMap().values()) {
+                            i.updateUI();
+                        }
                     }
                 }
 
@@ -305,16 +308,12 @@ public class WheelDataItem {
 
                 }
             });
+
             itemChance.setOnFocusChangeListener(new OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
                     if(!hasFocus) {
                         internalUIUpdate();
-                    }
-                    if(canChangeChance) {
-                        for (WheelDataItem i : parentWheel.getHashMap().values()) {
-                            i.updateUI();
-                        }
                     }
                 }
             });
