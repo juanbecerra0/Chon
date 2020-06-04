@@ -1,5 +1,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
 android:layout_height="match_parent"
     android:orientation="vertical"
     android:screenOrientation="portrait"
@@ -8,8 +9,8 @@ android:id = "@+id/mainMenu">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="top">
+
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/chonTag"
@@ -17,16 +18,39 @@ android:id = "@+id/mainMenu">
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:fontFamily="serif-monospace"
-            android:text=""
+            android:text="Chon!"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textSize="72sp"
+            android:textStyle="bold|italic"
+            android:layout_gravity = "center"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Fix it!"
+            android:textSize="18sp"
             android:textStyle="bold|italic" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:srcCompat="@android:drawable/arrow_down_float" />
+
+
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
         android:orientation="vertical"
         android:layout_gravity = "center">
 
@@ -35,7 +59,7 @@ android:id = "@+id/mainMenu">
 
         <android.opengl.GLWheelView
             android:id="@+id/glView"
-            android:layout_width="match_parent"
+            android:layout_width="400dp"
             android:layout_height="400dp" />
 
 
