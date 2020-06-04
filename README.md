@@ -9,6 +9,10 @@ Chon is an Android (possibly iOS in the future) app developed with a single purp
 
 # Log
 
+### 6/04/20
+![5](RMImages/5.PNG)
+For version 0.5, I animated the wheel to actually match the randomly selected item. In addition, I updated the UI to point at the rendering context selection. In the future, I’ll focus on keeping colors consistent and labeling which items correspond to which color.
+
 ### 6/03/20
 ![4](RMImages/4.PNG)
 For version 0.4, I’ve addressed bugs related to automatically loading the saved wheel, and dynamically changing dynamic item chances when static chances are altered. As for new features, the name fields have been increased by 50%, and the renderer now displays a spinning wheel with color-coded sections. In the next update, I will be focusing on actually animating this wheel, and programming a better way to determine colors.
