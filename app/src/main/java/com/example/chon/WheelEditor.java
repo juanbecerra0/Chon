@@ -38,9 +38,6 @@ public class WheelEditor extends AppCompatActivity {
     private WheelSaveDataManager saveDataManager;
     private Set<String> wheelNames;
 
-    // Reload current flag
-    private boolean reloadCurrentWheelFlag = false;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,10 +70,6 @@ public class WheelEditor extends AppCompatActivity {
                 i.initUiElement(getBaseContext());
             }
 
-            // Check if current wheel must be reloaded
-            if (saveDataManager.LoadCurrentWheel().getWheelName().equals(thisWheel.getWheelName())) {
-                reloadCurrentWheelFlag = true;
-            }
         }
 
         // Config UI
@@ -115,10 +108,8 @@ public class WheelEditor extends AppCompatActivity {
                 thisWheel.setWheelName(wheelName.getText().toString());
                 saveDataManager.AddToWheelList(thisWheel);
 
-                // Check if current wheel needs to be updated
-                if (reloadCurrentWheelFlag) {
-                    saveDataManager.SaveCurrentWheel(thisWheel);
-                }
+                // Save as current wheel
+                saveDataManager.SaveCurrentWheel(thisWheel);
 
                 // Finally, return to main menu
                 startActivity(new Intent(WheelEditor.this, MainActivity.class));
