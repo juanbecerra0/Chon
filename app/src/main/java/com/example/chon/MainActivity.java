@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Wheel animation constants
     private final float SPIN_DEGREES = 5 * 360f;
-    private final float THREAD_OFFSET = 0.4f;
+    private final float THREAD_OFFSET = 1f;//0.4f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
