@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.LinkedHashMap;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     // Current wheel object
@@ -27,6 +28,10 @@ public class MainActivity extends AppCompatActivity {
     // Sound media player
     private MediaPlayer funhausSong;
     private long funhausSongDuration;
+
+    // Wheel animation constants
+    private final float SPIN_DEGREES = 5 * 360f;
+    private final float THREAD_OFFSET = 0.4f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,10 +137,25 @@ public class MainActivity extends AppCompatActivity {
             public void run () {
                 try {
 
-                    for (int i = 0; i < (funhausSongDuration * 0.4); i++) {
-                        float lerpAmount = (float) (((float)i) / (funhausSongDuration * 0.4));
+                    // Determine the end angle
+                    Random rand = new Random();
+                    float endAngle = 0f;
 
-                        ((GLWheelView) glView).setRotationAngle(inOutQuadBlend(lerpAmount) * (360f * 5));
+                    Object[] items = wheel.getWheelDataItemsAsArray();
+                    int prevChance = 0;
+                    for (Object i : items) {
+                        if ( !((WheelDataItem)i).getName().equals(winningItem) ) {
+                            prevChance += ((WheelDataItem)i).getChance();
+                        } else {
+                            endAngle = ((float)prevChance / 100 +
+                                    (rand.nextFloat() * ((WheelDataItem)i).getChance()) / 100) * 360f;
+                        }
+                    }
+
+                    for (int i = 0; i < (funhausSongDuration * THREAD_OFFSET); i++) {
+                        float lerpAmount = (float) (((float)i) / (funhausSongDuration * THREAD_OFFSET));
+
+                        ((GLWheelView) glView).setRotationAngle( inOutQuadBlend(lerpAmount) * (SPIN_DEGREES + endAngle));
                         Thread.sleep(1);
                     }
 
