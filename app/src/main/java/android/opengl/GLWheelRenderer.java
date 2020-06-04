@@ -2,13 +2,13 @@ package android.opengl;
 
 import android.os.SystemClock;
 
+import com.example.chon.WheelData;
+import com.example.chon.WheelDataItem;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 public class GLWheelRenderer implements GLSurfaceView.Renderer {
-
-    // Square vertex set object
-    private Square mSquare;
 
     // vPMatrix is an abbreviation for "Model View Projection Matrix"
     private final float[] vPMatrix = new float[16];
@@ -18,13 +18,28 @@ public class GLWheelRenderer implements GLSurfaceView.Renderer {
     // Used in rotation animation
     private float[] rotationMatrix = new float[16];
 
+    // Wheel data used to create GLWheelShapes
+    private WheelData wheelData;
+    private GLWheelShape[] wheelShapes;
+
+    public GLWheelRenderer(WheelData wheelData) {
+        this.wheelData = wheelData;
+    }
+
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         // Set background color
         GLES20.glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
 
-        // Create square
-        mSquare = new Square();
+        // For each wheel in wheelData, create a new wheelShape
+        wheelShapes = new GLWheelShape[wheelData.getTotalItemCount()];
+        Object[] items = wheelData.getWheelDataItemsAsArray();
+
+        int startPoint = 0;
+        for (int i = 0; i < wheelShapes.length; i++) {
+            wheelShapes[i] = new GLWheelShape( ((WheelDataItem)items[i]), startPoint);
+            startPoint += ((WheelDataItem)items[i]).getChance();
+        }
     }
 
     @Override
@@ -63,6 +78,9 @@ public class GLWheelRenderer implements GLSurfaceView.Renderer {
         Matrix.multiplyMM(scratch, 0, vPMatrix, 0, rotationMatrix, 0);
 
         //mSquare.draw(vPMatrix);
-        mSquare.draw(scratch);
+        //mSquare.draw(scratch);
+        for (GLWheelShape shape : wheelShapes) {
+            shape.draw(scratch);
+        }
     }
 }

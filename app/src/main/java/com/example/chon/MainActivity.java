@@ -45,8 +45,8 @@ public class MainActivity extends AppCompatActivity {
         this.getSupportActionBar().hide();
 
         // OpenGL rendering context
-        // glView = new GLWheelView(this);
         glView = (GLWheelView) findViewById(R.id.glView);
+        ((GLWheelView) glView).initRenderer(wheel);
 
         // Wheel selection button
         wheelMenuButton = (Button) findViewById(R.id.wheelMenuButton);

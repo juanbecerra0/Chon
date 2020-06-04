@@ -69,7 +69,7 @@ public class WheelDataItem {
      *
      * @return name of item
      */
-    String getName() {
+    public String getName() {
         return name;
     }
 
@@ -92,7 +92,7 @@ public class WheelDataItem {
      *
      * @return chance of receiving item
      */
-    int getChance() {
+    public int getChance() {
         return chance;
     }
 

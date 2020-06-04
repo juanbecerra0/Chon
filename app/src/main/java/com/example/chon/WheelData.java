@@ -2,7 +2,6 @@ package com.example.chon;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -259,8 +258,12 @@ public class WheelData {
      *
      * @return
      */
-    LinkedHashMap<String, WheelDataItem> getHashMap() {
+    public LinkedHashMap<String, WheelDataItem> getHashMap() {
         return wheelItems;
+    }
+
+    public Object[] getWheelDataItemsAsArray() {
+        return wheelItems.values().toArray();
     }
 
     /**
@@ -268,7 +271,7 @@ public class WheelData {
      *
      * @return
      */
-    int getTotalItemCount() {
+    public int getTotalItemCount() {
         return totalItemCount;
     }
 
