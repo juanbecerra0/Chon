@@ -20,7 +20,7 @@
             android:layout_weight="1"
             android:ems="10"
             android:inputType="textPersonName"
-            android:maxLength="20"
+            android:maxLength="30"
             android:text="" />
 
         <EditText
