@@ -217,6 +217,8 @@ public class WheelDataItem {
 
         if (hex.length() == 1) {
             hex = "0" + hex;
+        } else if (hex.length() >= 3) {
+            hex = "FF";
         }
 
         return hex;
@@ -235,7 +237,7 @@ public class WheelDataItem {
         // B
         hex += toHex((int) (rgbPercent[2] * 256));
 
-        Log.v("Color: ", hex + " :: (" + rgbPercent[0] + ", " + rgbPercent[1] + ", " + rgbPercent[2] + ")");
+        //Log.v("Color: ", hex + " :: (" + rgbPercent[0] + ", " + rgbPercent[1] + ", " + rgbPercent[2] + ")");
 
         return hex;
     }
