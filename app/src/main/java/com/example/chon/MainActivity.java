@@ -10,6 +10,7 @@ import android.opengl.GLWheelView;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -110,9 +111,9 @@ public class MainActivity extends AppCompatActivity {
             TextView label = new TextView(getBaseContext());
             label.setText( ((WheelDataItem)i).getName() );
 
-            // TODO set color
             label.setTextColor(Color.parseColor( ((WheelDataItem)i).getColorAsHex() ));
             label.setTextSize(20);
+            label.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
             colorKey.addView(label);
         }
