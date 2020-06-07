@@ -214,6 +214,11 @@ public class WheelDataItem {
             hex=hexchars[rem]+hex;
             decimal=decimal/16;
         }
+
+        if (hex.length() == 1) {
+            hex = "0" + hex;
+        }
+
         return hex;
     }
 
