@@ -9,6 +9,7 @@ import android.opengl.GLSurfaceView;
 import android.opengl.GLWheelView;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -186,10 +187,12 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
+                Log.v("End angle: ", String.valueOf(endAngle));
+
                 while(funhausSong.isPlaying()) {
                     float lerpAmount = (float)funhausSong.getCurrentPosition() / funhausSongDuration;
 
-                    ((GLWheelView) glView).setRotationAngle( inOutQuadBlend(lerpAmount) * (SPIN_DEGREES + endAngle));
+                    ((GLWheelView) glView).setRotationAngle( inOutQuadBlend(lerpAmount) * -(SPIN_DEGREES + endAngle));
                 }
             }
         };

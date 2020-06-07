@@ -314,10 +314,10 @@ public class WheelData {
         int mapIndex = 1;
 
         // Loop through each item's chances
-        for (WheelDataItem item : wheelItems.values()) {
+        for (Object item : getWheelDataItemsAsArray()) {
             // For this item's chance value, map inc index to item's name
-            for (int i = 0; i < item.getChance(); i++) {
-                randomMap.put(mapIndex++, item.getName());
+            for (int i = 0; i < ((WheelDataItem) item).getChance(); i++) {
+                randomMap.put(mapIndex++, ((WheelDataItem) item).getName());
             }
         }
 
