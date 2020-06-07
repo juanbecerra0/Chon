@@ -9,6 +9,10 @@ Chon is an Android (possibly iOS in the future) app developed with a single purp
 
 # Log
 
+### 6/07/20
+![6](RMImages/6.PNG)
+For version 0.6, I implemented consistent colors, color labels, and “Chonisms”. Colors are now calculated based on item names, and they are shown in a color key below the menu. In addition, a random Chonism is displayed every time the user visits the main menu. A bug was also fixed that caused the wheel to misalign the selection when static items are introduced. The next update will focus on cleaning up the codebase and polishing the UI.
+
 ### 6/04/20
 ![5](RMImages/5.PNG)
 For version 0.5, I animated the wheel to actually match the randomly selected item. In addition, I updated the UI to point at the rendering context selection. In the future, I’ll focus on keeping colors consistent and labeling which items correspond to which color.
