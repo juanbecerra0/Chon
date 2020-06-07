@@ -239,7 +239,7 @@ public class WheelDataItem {
         // B
         hex += toHex((int) (rgbPercent[2] * 256));
 
-        Log.v("Color: ", hex + " :: (" + rgbPercent[0] + ", " + rgbPercent[1] + ", " + rgbPercent[2] + ")");
+        //Log.v("Color: ", hex + " :: (" + rgbPercent[0] + ", " + rgbPercent[1] + ", " + rgbPercent[2] + ")");
 
         return hex;
     }
