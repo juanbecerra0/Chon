@@ -119,6 +119,90 @@ public class WheelDataItem {
      */
     boolean isDynamic() { return !isStatic; }
 
+    /**
+     * Returns color of this object (calculated based off of name)
+     *
+     * @return float array representing color
+     */
+    public float[] getColor() {
+
+        char[] charArr = name.toCharArray();
+
+        if (charArr.length < 3) {
+            float value = 0;
+            for (char c : charArr) {
+                value += c;
+            }
+            float rgb = (value % 256) / 256;
+
+            return new float[] {rgb, rgb, rgb, 1.0f};
+        } else {
+            int partition = charArr.length / 3;
+            int remainder = charArr.length % 3;
+
+            float r = 0f, g = 0f, b = 0f;
+
+            // Calc r
+            if (remainder == 1 || remainder == 2) {
+                float value = 0;
+                for (int i = 0; i < partition + 1; i++) {
+                    value += charArr[i] * 2;
+                }
+                r = (value % 256) / 256;
+            } else {
+                float value = 0;
+                for (int i = 0; i < partition; i++) {
+                    value += charArr[i] * 2;
+                }
+                r = (value % 256) / 256;
+            }
+
+            // calc g
+            if (remainder == 1) {
+                float value = 0;
+                for (int i = partition + 1; i < (partition * 2) + 1; i++) {
+                    value += charArr[i] * 2;
+                }
+                g = (value % 256) / 256;
+            } else if (remainder == 2) {
+                float value = 0;
+                for (int i = partition + 1; i < (partition * 2) + 2; i++) {
+                    value += charArr[i] * 2;
+                }
+                g = (value % 256) / 256;
+            } else {
+                float value = 0;
+                for (int i = partition; i < partition * 2; i++) {
+                    value += charArr[i] * 2;
+                }
+                g = (value % 256) / 256;
+            }
+
+            // calc b
+            if (remainder == 1) {
+                float value = 0;
+                for (int i = (partition * 2) + 1; i < (partition * 3) + 1; i++) {
+                    value += charArr[i] * 2;
+                }
+                b = (value % 256) / 256;
+            } else if (remainder == 2) {
+                float value = 0;
+                for (int i = (partition * 2) + 2; i < (partition * 3) + 2; i++) {
+                    value += charArr[i] * 2;
+                }
+                b = (value % 256) / 256;
+            } else {
+                float value = 0;
+                for (int i = (partition * 2); i < (partition * 3); i++) {
+                    value += charArr[i] * 2;
+                }
+                b = (value % 256) / 256;
+            }
+
+            return new float[] {r, g, b, 1.0f};
+        }
+    }
+
     // ---------------------------------------------------------------
     // Overloads
     // ---------------------------------------------------------------

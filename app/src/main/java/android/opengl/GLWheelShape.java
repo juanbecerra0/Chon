@@ -104,8 +104,7 @@ public class GLWheelShape {
         }
 
         // Determine a random color for this portion
-        Random rand = new Random();
-        color = new float[] {rand.nextFloat(), rand.nextFloat(), rand.nextFloat(), 1f};
+        color = item.getColor();
 
         // initialize vertex byte buffer for shape coordinates
         ByteBuffer bb = ByteBuffer.allocateDirect(
