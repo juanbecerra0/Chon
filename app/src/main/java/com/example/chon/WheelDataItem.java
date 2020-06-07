@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -201,6 +202,37 @@ public class WheelDataItem {
 
             return new float[] {r, g, b, 1.0f};
         }
+    }
+
+    private static String toHex(int decimal){
+        int rem;
+        String hex="";
+        char hexchars[]={'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
+        while(decimal>0)
+        {
+            rem=decimal%16;
+            hex=hexchars[rem]+hex;
+            decimal=decimal/16;
+        }
+        return hex;
+    }
+
+    String getColorAsHex() {
+        String hex = "#";
+        float[] rgbPercent = getColor();
+
+        // R
+        hex += toHex((int) (rgbPercent[0] * 256));
+
+        // G
+        hex += toHex((int) (rgbPercent[1] * 256));
+
+        // B
+        hex += toHex((int) (rgbPercent[2] * 256));
+
+        Log.v("Color: ", hex + " :: (" + rgbPercent[0] + ", " + rgbPercent[1] + ", " + rgbPercent[2] + ")");
+
+        return hex;
     }
 
     // ---------------------------------------------------------------

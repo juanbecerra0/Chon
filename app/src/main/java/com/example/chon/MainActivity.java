@@ -3,6 +3,7 @@ package com.example.chon;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLWheelView;
@@ -103,7 +104,17 @@ public class MainActivity extends AppCompatActivity {
         funhausSongDuration = funhausSong.getDuration();
 
         // Add names to center layout
-        //LinearLayout centerLayout = findViewById()
+        LinearLayout colorKey = findViewById(R.id.colorKey);
+        for(Object i : wheel.getWheelDataItemsAsArray()) {
+            TextView label = new TextView(getBaseContext());
+            label.setText( ((WheelDataItem)i).getName() );
+
+            // TODO set color
+            label.setTextColor(Color.parseColor( ((WheelDataItem)i).getColorAsHex() ));
+            label.setTextSize(20);
+
+            colorKey.addView(label);
+        }
     }
 
     private WheelData loadCurrentWheel() {
