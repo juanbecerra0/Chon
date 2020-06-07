@@ -30,7 +30,7 @@ public class GLWheelRenderer implements GLSurfaceView.Renderer {
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         // Set background color
-        GLES20.glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
+        GLES20.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
         // For each wheel in wheelData, create a new wheelShape
         wheelShapes = new GLWheelShape[wheelData.getTotalItemCount()];

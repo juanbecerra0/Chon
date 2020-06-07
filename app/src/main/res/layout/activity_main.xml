@@ -34,13 +34,6 @@ android:id = "@+id/mainMenu">
             android:textStyle="bold|italic"
             android:layout_gravity = "center"/>
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            app:srcCompat="@android:drawable/arrow_down_float" />
-
         <TextView
             android:id="@+id/result"
             android:layout_width="match_parent"
@@ -53,6 +46,13 @@ android:id = "@+id/mainMenu">
             android:textColor="@android:color/holo_red_dark"
             android:textSize="30sp"
             android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:srcCompat="@android:drawable/arrow_down_float" />
 
         <android.opengl.GLWheelView
             android:id="@+id/glView"
