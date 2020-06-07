@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.LinkedHashMap;
@@ -32,6 +33,21 @@ public class MainActivity extends AppCompatActivity {
     // Wheel animation constants
     private final float SPIN_DEGREES = 5 * 360f;
 
+    // Chonisms
+    private final String[] CHONISMS = {
+            "Fix it, Chon!",
+            "Ah well, typically, you know what they say",
+            "I'm about to get F**KED",
+            "Oh sh*t, ohohohoooooh sh*t",
+            "*breathes heavily while running up stairs*",
+            "They went... BACK IN TIME",
+            "I've never smoked before in my life",
+            "SISTER. MURDER.",
+            "Israel is what Utah is to THE WORLD",
+            "Oh God, my knees",
+            "Nah"
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +64,11 @@ public class MainActivity extends AppCompatActivity {
     private void ConfigUI() {
         // Hide support bar
         this.getSupportActionBar().hide();
+
+        // Chonism
+        TextView chonsim = (TextView) findViewById(R.id.chonism);
+        Random rand = new Random();
+        chonsim.setText(CHONISMS[rand.nextInt(CHONISMS.length)]);
 
         // OpenGL rendering context
         glView = (GLWheelView) findViewById(R.id.glView);
@@ -80,6 +101,9 @@ public class MainActivity extends AppCompatActivity {
         // Funhaus song
         funhausSong = MediaPlayer.create(this, R.raw.wheelhaus);
         funhausSongDuration = funhausSong.getDuration();
+
+        // Add names to center layout
+        //LinearLayout centerLayout = findViewById()
     }
 
     private WheelData loadCurrentWheel() {
